@@ -41,6 +41,13 @@ Page({
       }
     })
   },
+  addDiscuss: function(e){
+    var dis = {};
+    dis['discussSource']=this.data.demandId
+    dis['sourceType'] = 1
+    dis['content'] = e.detail.value
+    dis['createDate'] = Date.now()
+  },
   /**
    * 生命周期函数--监听页面加载
    */

@@ -1,13 +1,62 @@
 // pages/my/my.js
+const app = getApp()
+const url = app.globalData.serverUrl + "/wx"
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    sessionKey:null,
+    iv:null,
+    encData:null
   },
 
+  getPhoneNumber: function (e) {
+    console.log(e.detail.errMsg)
+    if(typeof(e.detail.iv) == "undefined"){
+      return
+    }
+    console.log(e.detail.iv)
+    this.data.iv = e.detail.iv
+    console.log(e.detail.encryptedData)
+    this.data.encData = e.detail.encryptedData
+    this.checkSession()
+  },
+  checkSession:function(){
+    wx.checkSession({
+      success:function() {
+        console.info("session没有过期")
+        this.bindPhone()
+      },
+      fail:function(){
+        console.info("session已经过期，重新登陆")
+        wx.login({
+          success:res => {
+            app.globalData.sessionCode = res.code
+            this.bindPhone()
+          }
+        })
+      }
+    })
+  },
+  bindPhone:function(){
+    wx.request({
+      url: url+"/login",
+      data: { 'code': app.globalData.sessionCode},
+      success:res =>{
+        console.log(res)
+        // this.data.sessionKey = res.data
+        // wx.request({
+        //   url: url +"/dcymobile",
+        //   data: { 'key': this.data.sessionKey, 'encData': this.data.endData, 'iv': this.data.iv },
+        //   success:res => {
+
+        //   }
+        // })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

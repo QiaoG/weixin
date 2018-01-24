@@ -17,3 +17,16 @@
 .page__bd {
     padding-bottom: 20px;
 }
+.section-input{
+  font-size: 15px;
+  height:3em;
+  background:#F4F4F4; 
+  padding: 0.5em;
+  display: flex;
+  position: fixed;
+  bottom: 1px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row; 
+}
