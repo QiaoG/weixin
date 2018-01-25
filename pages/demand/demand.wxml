@@ -9,4 +9,7 @@
       </view>
     </view>
   </view>
+  <view class="section-input">
+    <button size='mini' bindtap='add'>添加需求</button>
+  </view>
 </view>

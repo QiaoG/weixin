@@ -13,8 +13,11 @@
       </view>
     </view>
   </view>
-  <view class="section-input">
-    <input class="weui-input" placeholder='评论' style='flex:1;margin-right:0.5em;'/>
-    <button bindtap="addDiscuss" size='mini'>发送</button>
-  </view>
+  <view style='height: 3em;'></view>
+  <form bindsubmit="addDiscuss">
+    <view class="section-input">
+      <input name="content" class="weui-input" placeholder='评论' style='flex:1;margin-right:0.5em;' />
+      <button formType="submit" size='mini'>发送</button>
+    </view>
+  </form>
 </view>

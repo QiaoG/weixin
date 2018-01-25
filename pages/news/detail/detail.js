@@ -2,6 +2,7 @@
 const app = getApp()
 const newsUrl = app.globalData.serverUrl + "/api/news"
 const disUrl = app.globalData.serverUrl +"/api/discuss/search/sourceAndType"
+const addDisUrl = app.globalData.serverUrl + "/api/discuss"
 const pageSize = app.globalData.pageSize
 Page({
 
@@ -41,8 +42,23 @@ Page({
       }
     })
   },
-  addDiscuss: function(){
-
+  addDiscuss: function (e) {
+    var dis = {};
+    dis['discussSource'] = this.data.newsId;
+    dis['sourceType'] = 0;
+    dis['content'] = e.detail.value.content;
+    dis['createDate'] = Date.now();
+    dis['authorId'] = app.globalData.topUser.id;
+    dis['authorNickName'] = app.globalData.topUser.nickname;
+    dis['status'] = 0
+    wx.request({
+      url: addDisUrl,
+      method: 'POST',
+      data: dis,
+      success: res => {
+        console.info(res);
+      }
+    })
   },
 
   /**

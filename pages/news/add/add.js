@@ -1,11 +1,76 @@
 // pages/news/add/add.js
+const app = getApp()
+const url = app.globalData.serverUrl + "/api/news"
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    title: null,
+    content: null,
+    source:null,
+    adding:false
+  },
+
+  confirmTitle: function (e) {
+    this.setData({
+      title: e.detail.value
+    });
+  },
+
+  confirmSource: function (e) {
+    this.setData({
+      source: e.detail.value
+    });
+  },
+
+  confirmContent: function (e) {
+    this.setData({
+      content: e.detail.value
+    });
+  },
+
+  check:function(){
+    if(this.data.title == null || this.data.content == null){
+      return false;
+    }
+    return true;
+  },
+
+  add: function () {
+    if(!this.check()){
+      console.info("有输为空");
+      return;
+    }
+    if(this.data.adding){
+      return;
+    }
+    this.setData({
+      adding:true
+    });
+    wx.request({
+      url: url,
+      method: 'POST',
+      header: { 'Content-Type': 'application/json' },
+      data:{
+        title:this.data.title,
+        newsSource:this.data.source,
+        content:this.data.content,
+        createDate:Date.now(),
+        status:0,
+        authorId: app.globalData.topUser.id
+      },
+      success:res => {
+        console.info(res);
+      },
+      complete:() => {
+        this.setData({
+          adding:false
+        });
+      }
+    })
   },
 
   /**

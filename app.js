@@ -24,7 +24,7 @@ App({
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
-            withCredentials: true,
+            //withCredentials: true,
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
               console.log(res)
@@ -35,6 +35,22 @@ App({
               if (this.userInfoReadyCallback) {
                 this.userInfoReadyCallback(res)
               }
+              wx.request({
+                url: this.globalData.serverUrl+"/api/user/search/findByNickname",
+                data:{name:res.userInfo.nickName},
+                success:res => {
+                  console.info(res);
+                  var users = res.data._embedded.users
+                  if(users.length > 0){
+                    this.globalData.topUser = users[0]
+                    var link = users[0]._links.self.href
+                    console.info(link)
+                    this.globalData.topUser["id"]=link.substring(link.lastIndexOf("/")+1)
+                    console.info(this.globalData.topUser)
+                  }
+                  
+                }
+              })
             }
           })
         }

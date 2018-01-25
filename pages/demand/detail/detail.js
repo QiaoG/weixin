@@ -1,6 +1,7 @@
 // pages/demand/detail/detail.js
 const app = getApp()
 const demandUrl = app.globalData.serverUrl + "/api/demands"
+const addDisUrl = app.globalData.serverUrl + "/api/discuss"
 const disUrl = app.globalData.serverUrl + "/api/discuss/search/sourceAndType"
 const pageSize = app.globalData.pageSize
 Page({
@@ -15,6 +16,7 @@ Page({
     discussCurrentPageSize: 0,
     discusses: []
   },
+
   getDemand: function (id) {
     wx.request({
       url: demandUrl + '/' + id,
@@ -43,10 +45,21 @@ Page({
   },
   addDiscuss: function(e){
     var dis = {};
-    dis['discussSource']=this.data.demandId
-    dis['sourceType'] = 1
-    dis['content'] = e.detail.value
-    dis['createDate'] = Date.now()
+    dis['discussSource']=this.data.demandId;
+    dis['sourceType'] = 1;
+    dis['content'] = e.detail.value.content;
+    dis['createDate'] = Date.now();
+    dis['authorId'] = app.globalData.topUser.id;
+    dis['authorNickName'] = app.globalData.topUser.nickname;
+    dis['status'] = 0
+    wx.request({
+      url: addDisUrl,
+      method:'POST',
+      data:dis,
+      success:res => {
+        console.info(res);
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载

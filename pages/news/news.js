@@ -8,7 +8,13 @@ Page({
   data: {
     currentPage: 0,
     currentPageSize: 0,
-    newses: []
+    newses: [],
+    loading:false
+  },
+  init:function(){
+    this.data.currentPage = 0
+    this.data.currentPageSize = 0
+    this.data.newses.splice(0,this.data.newses.length)
   },
   getNewses: function () {
     var nextPage = this.data.currentPage + 1;
@@ -25,14 +31,24 @@ Page({
         this.data.currentPage = nextPage
         this.data.currentPageSize = res.data.length;
         console.log('page:' + this.data.currentPage + ' size:' + this.data.currentPageSize)
+      },
+      complete:() => {
+        console.info("请求结束...");
+        this.setData({
+          loading: false
+        })
       }
     })
   },
   detail:function(e){
-    console.log(e)
     var id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: 'detail/detail?id='+id,
+    })
+  },
+  add:function(e){
+    wx.navigateTo({
+      url: 'add/add',
     })
   },
   /**
@@ -73,15 +89,25 @@ Page({
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
+   * 刷新
    */
   onPullDownRefresh: function () {
-
+    wx.stopPullDownRefresh()
+    console.info("刷新....")
+    this.init()
+    this.getNewses()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    if(this.data.loading){
+      return
+    }
+    this.setData({
+      loading:true
+    })
     if (this.data.currentPageSize === app.globalData.pageSize) {
       this.getNewses()
     } else {

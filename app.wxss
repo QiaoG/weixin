@@ -24,7 +24,7 @@
   padding: 0.5em;
   display: flex;
   position: fixed;
-  bottom: 1px;
+  bottom: 0px;
   width: 100%;
   box-sizing: border-box;
   display: flex;

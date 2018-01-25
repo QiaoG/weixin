@@ -1,2 +1,20 @@
 <!--pages/demand/add/add.wxml-->
-<text>pages/demand/add/add.wxml</text>
+<view class='page'>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <input class="weui-input" bindconfirm='confirmTitle' bindblur='confirmTitle' placeholder="请输入需求标题" />
+      </view>
+    </view>
+  </view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入需求内容" bindconfirm='confirmContent' bindblur='confirmContent' style="height: 26.6em" />
+      </view>
+    </view>
+  </view>
+  <view class="section-input">
+    <button size='mini' bindtap='add' disabled='{{adding}}'>提交</button>
+  </view>
+</view>

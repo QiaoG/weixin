@@ -10,13 +10,15 @@ Page({
   data: {
     demands:[],
     nextPage:0,
-    currentPageSize:0
+    currentPageSize:0,
+    loading:false
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
+  init:function(){
+    this.data.demands.splice(0,this.data.demands.length);
+    this.data.nextPage = 0;
+    this.currentPageSize = 0;
+  },
+  getDemands:function(){
     wx.request({
       url: url + '?page=' + this.data.nextPage + '&size=' + pageSize,
       success: res => {
@@ -31,6 +33,13 @@ Page({
     })
   },
 
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.getDemands();
+  },
+
   detail: function (e) {
     console.log(e)
     var id = e.currentTarget.dataset.id
@@ -38,6 +47,12 @@ Page({
       url: 'detail/detail?id=' + id,
     })
   },
+  add: function (e) {
+    wx.navigateTo({
+      url: 'add/add',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -70,14 +85,25 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    
+    this.init();
+    this.getDemands();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    
+    if (this.data.loading) {
+      return
+    }
+    if (this.data.currentPageSize === app.globalData.pageSize) {
+      this.setData({
+        loading: true
+      })
+      this.getDemands()
+    } else {
+      console.log("have no demands!");
+    }
   },
 
   /**
