@@ -9,7 +9,21 @@ Page({
   data: {
     title: null,
     content: null,
-    adding: false
+    adding: false,
+    date:null,
+    typeArray:[
+      { id: 0, name:'老股转让'},
+      { id: 1, name:'约调研'},
+      { id: 2, name:'约投资'},
+      { id: 3, name:'股权抵押'},
+      { id: 4, name:'其他'}
+    ],
+    index:0
+  },
+  bindTypeChange:function(e){
+    this.setData({
+      index: e.detail.value
+    })
   },
   confirmTitle: function (e) {
     this.setData({
@@ -39,11 +53,15 @@ Page({
       method: 'POST',
       header: { 'Content-Type': 'application/json' },
       data: {
+        'type':this.data.index,
         title: this.data.title,
         content: this.data.content,
         publishDate: Date.now(),
         status: 0,
-        publisherId: app.globalData.topUser.id
+        publisherId: app.globalData.topUser.id,
+        verifyId:0,
+        invalidDate:this.data.date,
+        publisherNickName: this.globalData.userInfo.nickname
       },
       success: res => {
         console.info(res);
@@ -63,11 +81,19 @@ Page({
     return true;
   },
 
+  bindDateChange:function(e){
+    this.setData({
+      date: e.detail.value
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      date:'2018-02-03'
+    });
   },
 
   /**

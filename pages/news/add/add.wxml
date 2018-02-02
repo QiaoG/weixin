@@ -3,25 +3,25 @@
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <input class="weui-input" bindconfirm='confirmTitle' bindblur='confirmTitle' placeholder="请输入新闻标题" />
+        <input class="weui-input" bindconfirm='confirmTitle' bindblur='confirmTitle' placeholder="请输入新闻标题" style='font-size:16px'/>
       </view>
     </view>
   </view>
     <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <input class="weui-input" bindconfirm='confirmSource' bindblur='confirmSource' placeholder="请输入新闻的来源企业" />
+        <input class="weui-input" bindconfirm='confirmSource' bindblur='confirmSource' placeholder="请输入新闻的来源企业" style='font-size:15px'/>
       </view>
     </view>
   </view>
   <view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell">
+    <view class="weui-cell weui-cell_input" >
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请输入新闻内容" bindconfirm='confirmContent' bindblur='confirmContent' style="height: 22.8em" />
+        <textarea class="weui-textarea" placeholder="请输入新闻内容" bindconfirm='confirmContent' bindblur='confirmContent' style="height: 22.8em;font-size: 13px;top:5px" />
       </view>
     </view>
   </view>
   <view class="section-input">
-    <button size='mini' bindtap='add' disabled='{{adding}}'>提交</button>
+    <button class='weui-btn' type='primary' plain='true' size='mini' bindtap='add' disabled='{{adding}}'>提交</button>
   </view>
 </view>

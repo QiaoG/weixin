@@ -3,9 +3,14 @@
     "pages/news/news",
     "pages/news/detail/detail",
     "pages/news/add/add",
+    "pages/news/verifys/verifys",
+    "pages/news/verify/verify",
     "pages/demand/demand",
     "pages/demand/detail/detail",
     "pages/demand/add/add",
+    "pages/demand/verify/verify",
+    "pages/demand/verifys/verifys",
+    "pages/dicuss/verify/verify",
     "pages/my/my",
     "pages/logs/logs",
     "pages/index/index"
@@ -13,7 +18,7 @@
   "tabBar":{
     "list":[{
       "pagePath":"pages/news/news",
-      "text":"新闻"
+      "text":"热点"
     },{
       "pagePath": "pages/demand/demand",
       "text": "需求"

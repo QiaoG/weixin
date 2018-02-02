@@ -3,18 +3,40 @@
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <input class="weui-input" bindconfirm='confirmTitle' bindblur='confirmTitle' placeholder="请输入需求标题" />
+        <input class="weui-input" bindconfirm='confirmTitle' bindblur='confirmTitle' placeholder="请输入需求标题" style='font-size:16px'/>
       </view>
     </view>
   </view>
   <view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell">
+    <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请输入需求内容" bindconfirm='confirmContent' bindblur='confirmContent' style="height: 26.6em" />
+        <picker mode="date" value="{{date}}" start="2018-01-01" end="2021-12-31" bindchange="bindDateChange">
+          <view class="picker" style='font-size:15px;'>
+            失效日期: {{date}}
+          </view>
+        </picker>
       </view>
     </view>
   </view>
-  <view class="section-input">
-    <button size='mini' bindtap='add' disabled='{{adding}}'>提交</button>
+    <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <picker bindchange="bindTypeChange" value="{{index}}" range-key='name' range="{{typeArray}}">
+          <view class="picker" style='font-size:15px;'>
+            类型: {{typeArray[index]['name']}}
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入需求内容" bindconfirm='confirmContent' bindblur='confirmContent' style="height: 26.6em;font-size: 14px;top:5px" />
+      </view>
+    </view>
+  </view>
+  <view class="section-input" type="primary">
+    <button class='weui-btn' type='primary' plain='true' size='mini' bindtap='add' disabled='{{adding}}'>提交</button>
   </view>
 </view>

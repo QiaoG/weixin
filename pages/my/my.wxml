@@ -1,4 +1,7 @@
 <!--pages/my/my.wxml-->
 <view class='page'>
 <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机</button>
+<button bindtap='verifyNews'>审核热点</button>
+<button bindtap='verifyDemands'>审核需求</button>
+<button bindtap='verifyDiscuss'>审核评论</button>
 </view>

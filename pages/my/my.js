@@ -57,6 +57,23 @@ Page({
       }
     })
   },
+
+  verifyNews:function(){
+    wx.navigateTo({
+      url: '../news/verifys/verifys',
+    })
+  },
+
+  verifyDemands:function(){
+    wx.navigateTo({
+      url: '../demand/verifys/verifys',
+    })
+  },
+  verifyDiscuss:function(){
+    wx.navigateTo({
+      url: '../discuss/verify/verify',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

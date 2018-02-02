@@ -59,8 +59,10 @@ Page({
         newsSource:this.data.source,
         content:this.data.content,
         createDate:Date.now(),
+        publisherId:0,
         status:0,
-        authorId: app.globalData.topUser.id
+        authorId: app.globalData.topUser.id,
+        authorNickName: this.globalData.userInfo.nickname
       },
       success:res => {
         console.info(res);
