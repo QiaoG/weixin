@@ -1,0 +1,16 @@
+{
+  "navigationBarTitleText": "待审核评论",
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "news/news",
+        "text": "热点"
+      },
+      {
+        "pagePath": "demand/demand",
+        "text": "需求"
+      }
+    ],
+    "position": "top"
+  }
+}

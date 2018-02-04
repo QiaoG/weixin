@@ -10,7 +10,7 @@
     "pages/demand/add/add",
     "pages/demand/verify/verify",
     "pages/demand/verifys/verifys",
-    "pages/dicuss/verify/verify",
+    "pages/discuss/verify/verify",
     "pages/my/my",
     "pages/logs/logs",
     "pages/index/index"

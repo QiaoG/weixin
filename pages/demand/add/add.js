@@ -65,6 +65,11 @@ Page({
       },
       success: res => {
         console.info(res);
+        wx.showToast({
+          title: '添加完成',
+          icon: 'success',
+          duration: 2000
+        })
       },
       complete: () => {
         this.setData({

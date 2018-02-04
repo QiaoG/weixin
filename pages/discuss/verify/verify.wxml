@@ -1,0 +1,43 @@
+<!--pages/discuss/verify/verify.wxml-->
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{tabs}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{item}}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+      </view>
+      <view class="weui-tab__panel">
+        <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+        <view wx:if='{{discusses0.length==0}}' style='font-size:13px;color:#bebebe;margin:auto;'>没有待审核热点</view>
+          <view class="weui-panel__bd" wx:for="{{discusses0}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:5px'>
+            <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:5px'>
+              <view class="row-option">
+                <view style='flex:1;flex-grow:5;color:#aeaeae;'>{{item.formatDate}}</view>
+                <view style='flex:2;flex-grow:1;padding-right:5px;color:#a0a000;' data-id='{{item}}' bindtap='verify'>审核通过</view>
+              </view>
+              <text class="weui-article__p" style='font-size:14px;font-weight: 400;'>{{item.content}}</text>
+              <view class="weui-media-box__desc" style='padding-top:8px'>{{item.sourceTitle}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+        <view wx:if='{{discusses1.length==0}}' style='font-size:13px;color:#bebebe;text-align: center;'>没有待审核需求</view>
+          <view class="weui-panel__bd" wx:for="{{discusses1}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:5px'>
+            <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:5px'>
+              <view class="row-option">
+                <view class="weui-media-box__info__meta" style='flex:1;flex-grow:5;color:#aeaeae'>{{item.formatDate}}</view>
+                <view style='flex:2;flex-grow:1;color:#aeaeae' data-id='{{item}}' bindtap='verify'>审核通过</view>
+              </view>
+              <text class="weui-article__p" style='font-size:14px;font-weight: 400;'>{{item.content}}</text>
+              <view class="weui-media-box__desc" style='padding-top:8px'>{{item.sourceTitle}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

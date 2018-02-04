@@ -11,6 +11,9 @@ Page({
     newses: [],
     loading:false
   },
+  formatDate:function(s){
+    return s.format("yyyy-MM-dd");
+  },
   init:function(){
     this.data.currentPage = 0
     this.data.currentPageSize = 0
@@ -29,7 +32,9 @@ Page({
       },
       success: res => {
         console.log(ns.concat(res.data))
-
+        res.data.forEach(function(value){
+          value['createDate'] = value.createDate.split(' ')[0];
+        });
         this.setData({
           newses: this.data.newses.concat(res.data)
         })

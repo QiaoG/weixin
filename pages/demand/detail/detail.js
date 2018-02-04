@@ -14,7 +14,8 @@ Page({
     demandId: null,
     discussNextPage: 0,
     discussCurrentPageSize: 0,
-    discusses: []
+    discusses: [],
+    discnt:''
   },
 
   getDemand: function (id) {
@@ -29,9 +30,14 @@ Page({
       }
     })
   },
+  init:function(){
+    this.data.discussNextPage=0;
+    this.data.discussCurrentPageSize=0;
+    this.data.discusses.splice(0, this.data.discusses.length);
+  },
   getDiscusses: function (newsId) {
     wx.request({
-      url: disUrl + '?source=' + newsId + '&type=1&offset=' + (this.data.discussNextPage * pageSize) + '&size=' + pageSize,
+      url: disUrl + '?status=1&source=' + newsId + '&type=1&offset=' + (this.data.discussNextPage * pageSize) + '&size=' + pageSize,
       success: res => {
         console.log(res.data._embedded.discusses)
         this.setData({
@@ -51,13 +57,24 @@ Page({
     dis['createDate'] = Date.now();
     dis['authorId'] = app.globalData.topUser.id;
     dis['authorNickName'] = app.globalData.topUser.nickname;
-    dis['status'] = 0
+    dis['status'] = app.globalData.manager ? 1 : 0;
+    dis['sourceTitle']=this.data.demand.title;
     wx.request({
       url: addDisUrl,
       method:'POST',
       data:dis,
       success:res => {
         console.info(res);
+        wx.showToast({
+          title: '评论提交成功',
+          icon: 'success',
+          duration: 2000
+        });
+        this.init();
+        this.setData({
+          discnt: ''
+        });
+        this.getDiscusses(this.data.demandId )
       }
     })
   },
