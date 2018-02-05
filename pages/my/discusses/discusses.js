@@ -1,8 +1,8 @@
-// pages/discuss/verify/verify.js
+// pages/my/discusses/discusses.js
 const app = getApp()
-const url = app.globalData.serverUrl + "/api/discuss/search/statusAndType"
+const url = app.globalData.serverUrl + "/api/discuss/search/authorAndType"
 const pageSize = app.globalData.pageSize
-var sliderWidth = 96; 
+var sliderWidth = 96;
 Page({
 
   /**
@@ -13,20 +13,21 @@ Page({
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
-    discusses0:[],
+    discusses0: [],
     discusses1: [],
-    init0:false,
-    init1:false,
+    init0: false,
+    init1: false,
     nextPage0: 0,
     nextPage1: 0,
     currentPageSize0: 0,
     currentPageSize1: 0,
-    loading0:false,
-    loading1:false
+    loading0: false,
+    loading1: false
   },
-  init:function(index){
-    this.data['nextPage'+index]=0;
-    this.data['currentPageSize'+index] = 0;
+
+  init: function (index) {
+    this.data['nextPage' + index] = 0;
+    this.data['currentPageSize' + index] = 0;
     this.data['discusses' + index].splice(0, this.data['discusses' + index].length);
   },
 
@@ -35,15 +36,15 @@ Page({
       sliderOffset: e.currentTarget.offsetLeft,
       activeIndex: e.currentTarget.id
     });
-    if (!this.data['init' + this.data.activeIndex]){
+    if (!this.data['init' + this.data.activeIndex]) {
       this.findDiscusses();
     }
   },
 
-  findDiscusses:function(){
-    this.data['loading' + this.data.activeIndex]=true;
+  findDiscusses: function () {
+    this.data['loading' + this.data.activeIndex] = true;
     wx.request({
-      url: url + '?status=0&type=' + this.data.activeIndex + '&offset=' + (this.data['nextPage' + this.data.activeIndex] * pageSize) + '&size=' + pageSize,
+      url: url + '?author=' + app.globalData.topUser.id+'&type=' + this.data.activeIndex + '&offset=' + (this.data['nextPage' + this.data.activeIndex] * pageSize) + '&size=' + pageSize,
       success: res => {
         console.log(res.data._embedded.discusses);
         var i = 0;
@@ -51,7 +52,7 @@ Page({
           value['formatDate'] = value.createDate.split(' ')[0];
           value['index'] = i++;
         });
-        if (this.data.activeIndex == 0){
+        if (this.data.activeIndex == 0) {
           this.setData({
             discusses0: this.data.discusses0.concat(res.data._embedded.discusses)
           })
@@ -59,7 +60,7 @@ Page({
           this.data.currentPageSize0 = this.data.discusses0.length;
           this.data.init0 = true;
           console.log(this.data.nextPage0 + ',' + this.data.currentPageSize0);
-        }else{
+        } else {
           this.setData({
             discusses1: this.data.discusses1.concat(res.data._embedded.discusses)
           })
@@ -69,21 +70,19 @@ Page({
           console.log(this.data.nextPage1 + ',' + this.data.currentPageSize1)
         }
       },
-      complete:() =>{
+      complete: () => {
         this.data['loading' + this.data.activeIndex] = false;
       }
     })
   },
 
-  verify:function(e){
-    console.info(e);
+  deleteDis:function(e){
+    console.info(e.target);
     var u = e.target.dataset.id._links.self.href;
     var d = e.target.dataset.id;
-    d['status'] = 1;
     wx.request({
       url: u,
-      method: 'PUT',
-      data: d,
+      method: 'DELETE',
       success: res => {
         console.info(res);
         if (this.data.activeIndex == 0) {
@@ -91,19 +90,32 @@ Page({
           this.setData({
             discusses0: this.data.discusses0
           });
-        }else{
+        } else {
           this.data.discusses1.splice(d.index, 1)
           this.setData({
             discusses1: this.data.discusses1
           });
         }
-        
+
         wx.showToast({
-          title: '审核完成',
+          title: '删除成功',
           icon: 'success',
           duration: 2000
         })
       }
+    })
+  },
+
+  detailNews:function(e){
+    console.info(e.target);
+    wx.navigateTo({
+      url: '../../news/detail/detail?id=' + e.target.dataset.id,
+    })
+  },
+
+  detailDemand:function(e){
+    wx.navigateTo({
+      url: '../../demand/detail/detail?id=' + e.target.dataset.id,
     })
   },
 
@@ -118,7 +130,7 @@ Page({
           sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
           sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
         });
-        
+
       }
     });
     this.findDiscusses();
@@ -128,65 +140,48 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    this.init();
-    this.findDiscusses();
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data['loading' + this.data.activeIndex]) {
-      return
-    }
-    if (this.data['currentPageSize' + this.data.activeIndex] === app.globalData.pageSize) {
-      if (this.data.activeIndex === 0){
-        this.setData({
-          loading0: true
-        })
-      }else{
-        this.setData({
-          loading1: true
-        })
-      }
-      this.findDiscusses()
-    } else {
-      console.log("have no discusses...");
-    }
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

@@ -6,8 +6,8 @@
   </view>
   <view style='height: 3em;'></view>
   <form bindsubmit="addDiscuss">
-    <view class="section-input">
-      <button class="weui-btn" size='mini' type='primary' bindtap='verify' style='flex:1;'>审核通过</button>
+    <view class="section-input" style='height:4em;'>
+      <button class="weui-btn" type='primary' bindtap='verify' style='flex:1;background:#e14834;'>审核通过</button>
     </view>
   </form>
 </view>

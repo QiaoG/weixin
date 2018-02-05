@@ -1,0 +1,4 @@
+<!--pages/my/register/register.wxml-->
+<view class='page'>
+  <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机</button>
+</view>

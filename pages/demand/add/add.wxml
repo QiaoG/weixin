@@ -36,7 +36,7 @@
       </view>
     </view>
   </view>
-  <view class="section-input" type="primary">
-    <button class='weui-btn' type='primary' plain='true' size='mini' bindtap='add' disabled='{{adding}}'>提交</button>
+  <view class="section-input" style='height:4em;'>
+    <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' bindtap='add' disabled='{{adding}}'>添加</button>
   </view>
 </view>

@@ -12,6 +12,9 @@
     "pages/demand/verifys/verifys",
     "pages/discuss/verify/verify",
     "pages/my/my",
+    "pages/my/register/register",
+    "pages/my/discusses/discusses",
+    "pages/user/userManage",
     "pages/logs/logs",
     "pages/index/index"
   ],
@@ -26,7 +29,8 @@
       "pagePath": "pages/my/my",
       "text": "我的"
     }],
-    "position":"top"
+    "position":"top",
+    "selectedColor":"#e14834"
   },
   "window":{
     "backgroundTextStyle":"light",

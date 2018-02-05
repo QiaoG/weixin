@@ -57,11 +57,11 @@ Page({
         title: this.data.title,
         content: this.data.content,
         publishDate: Date.now(),
-        status: 0,
+        status: app.globalData.manager?1:0,
         publisherId: app.globalData.topUser.id,
         verifyId:0,
-        invalidDate:this.data.date,
-        publisherNickName: this.globalData.userInfo.nickname
+        invalidDate:this.data.date+' 00:00:00',
+        publisherNickName: app.globalData.userInfo.nickname
       },
       success: res => {
         console.info(res);
@@ -69,6 +69,14 @@ Page({
           title: '添加完成',
           icon: 'success',
           duration: 2000
+        })
+        var pages = getCurrentPages();
+        var currPage = pages[pages.length - 1];   //当前页面
+        var prevPage = pages[pages.length - 2];
+        prevPage.init();
+        prevPage.getDemands();
+        wx.navigateBack({
+          delta: 1
         })
       },
       complete: () => {

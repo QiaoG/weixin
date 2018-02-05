@@ -5,8 +5,8 @@
     <text class="weui-article__p">{{news.content}}</text>
   </view>
   <view style='height: 3em;'></view>
-  <view class="section-input">
-    <button size='mini' type='primary' bindtap='verify' style='flex:1;margin-right:0.5em;'>审核通过</button>
+  <view class="section-input" style='height:4em;'>
+    <button type='primary' bindtap='verify' style='flex:1;margin-right:0.5em;'>审核通过</button>
     <!-- <button size='mini' type='warn' bindtap='verifyNo' style='flex:2;'>审核未通过</button> -->
   </view>
 </view>

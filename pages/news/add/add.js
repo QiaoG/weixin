@@ -60,9 +60,9 @@ Page({
         content:this.data.content,
         createDate:Date.now(),
         publisherId:0,
-        status:0,
+        status: app.globalData.manager?1:0,
         authorId: app.globalData.topUser.id,
-        authorNickName: this.globalData.userInfo.nickname
+        authorNickName: app.globalData.userInfo.nickname
       },
       success:res => {
         console.info(res);
@@ -70,6 +70,14 @@ Page({
           title: '添加完成',
           icon: 'success',
           duration: 2000
+        })
+        var pages = getCurrentPages();
+        var currPage = pages[pages.length - 1];   //当前页面
+        var prevPage = pages[pages.length - 2];
+        prevPage.init();
+        prevPage.getNewses();
+        wx.navigateBack({
+          delta:1
         })
       },
       complete:() => {

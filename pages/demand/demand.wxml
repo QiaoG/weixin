@@ -9,7 +9,8 @@
       </view>
     </view>
   </view>
-  <view class="section-input">
-    <button class='weui-btn' size='mini' type='primary' plain='true' bindtap='add'>添加需求</button>
+  <view style='height:3.2em;'></view>
+  <view class="section-input" style='height:4em'>
+    <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' bindtap='add'>添加需求</button>
   </view>
 </view>

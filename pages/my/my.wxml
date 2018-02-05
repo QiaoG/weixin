@@ -1,7 +1,36 @@
 <!--pages/my/my.wxml-->
 <view class='page'>
-<button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机</button>
-<button bindtap='verifyNews'>审核热点</button>
-<button bindtap='verifyDemands'>审核需求</button>
-<button bindtap='verifyDiscuss'>审核评论</button>
+  <view class="weui-cell weui-cell_access" wx:if='{{manager}}' bindtap='verifyNews'>
+    <view class="weui-cell__bd">
+      <view style="display: inline-block; vertical-align: middle">审核热点</view>
+      <view class="weui-badge" style="margin-left: 5px;" wx:if='{{newsNum>0}}'>{{newsNum}}</view>
+    </view>
+    <view class="weui-cell__ft weui-cell__ft_in-access" ></view>
+  </view>
+  <view class="weui-cell weui-cell_access" wx:if='{{manager}}' bindtap='verifyDemands'>
+    <view class="weui-cell__bd">
+      <view style="display: inline-block; vertical-align: middle">审核需求</view>
+      <view class="weui-badge" style="margin-left: 5px;" wx:if='{{demandNum>0}}'>{{demandNum}}</view>
+    </view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </view>
+  <view class="weui-cell weui-cell_access" wx:if='{{manager}}' bindtap='verifyDiscuss'>
+    <view class="weui-cell__bd">
+      <view style="display: inline-block; vertical-align: middle">审核评论</view>
+      <view class="weui-badge" style="margin-left: 5px;" wx:if='{{discussNum>0}}'>{{discussNum}}</view>
+    </view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </view>
+  <view class="weui-cell weui-cell_access" wx:if='{{manager}}' bindtap='userManage'>
+    <view class="weui-cell__bd">
+      <view style="display: inline-block; vertical-align: middle">用户管理</view>
+    </view>
+    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </view>
+  <view class="weui-cell weui-cell_access" bindtap='myDiscuss'>
+    <view class="weui-cell__bd">
+      <view style="display: inline-block; vertical-align: middle">我的评论</view>
+    </view>
+    <view class="weui-cell__ft weui-cell__ft_in-access" ></view>
+  </view>
 </view>
