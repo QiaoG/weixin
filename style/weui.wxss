@@ -884,6 +884,11 @@ icon {
   overflow: hidden;
 }
 
+.weui-panel__bd{
+  background:#F4F4F4;
+  padding:1px;
+}
+
 .weui-panel:first-child {
   margin-top: 0;
 }

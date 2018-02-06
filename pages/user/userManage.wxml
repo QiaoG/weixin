@@ -4,7 +4,7 @@
     <view class="weui-search-bar__form">
       <view class="weui-search-bar__box">
         <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-        <input type="text" class="weui-search-bar__input" placeholder="按昵称查询" value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping" />
+        <input type="text" class="weui-search-bar__input" placeholder="按昵称查询" value="{{nickname}}" focus="{{inputShowed}}" bindinput="inputTyping" />
         <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
           <icon type="clear" size="14"></icon>
         </view>
@@ -15,5 +15,14 @@
       </label>
     </view>
     <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed}}" bindtap="search">查询</view>
+  </view>
+  <view class="weui-panel__bd" wx:for="{{users}}" wx:key="id">
+    <view class="weui-media-box weui-media-box_text" wx:if='{{item.rolec!=0&&item.id!=currentUser.id}}' data-id='{{item.id}}' style=' background:#FFFFFF;padding:7px;'>
+      <view class="row-option">
+        <view class="weui-media-box__info__meta" style='flex:2;flex-grow:12;font-weight: 400;font-size:14px'>{{item.nickname}}</view>
+        <view style='flex:2;flex-grow:1;color:#aeaeae' data-id='{{item}}' bindtap='manage'>...</view>
+      </view>
+      <text class="weui-article__p" style='font-size:13px;'>{{item.rolen}}  {{item.mobile}}</text>
+    </view>
   </view>
 </view>

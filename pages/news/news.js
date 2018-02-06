@@ -20,6 +20,9 @@ Page({
     this.data.newses.splice(0,this.data.newses.length)
   },
   getNewses: function () {
+    this.setData({
+      loading: true
+    })
     var nextPage = this.data.currentPage + 1;
     var ns = this.data.newses;
     console.log('page:' + nextPage)
@@ -112,12 +115,10 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    console.info("到底 触发 next page");
     if(this.data.loading){
       return
     }
-    this.setData({
-      loading:true
-    })
     if (this.data.currentPageSize === app.globalData.pageSize) {
       this.getNewses()
     } else {
