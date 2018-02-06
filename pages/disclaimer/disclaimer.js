@@ -1,41 +1,13 @@
-// pages/user/userManage.js
-const app = getApp();
-const url = app.globalData.serverUrl + "/wx";
-const urlNum = app.globalData.serverUrl + "/statistics/verifyCount";
+// pages/disclaimer/disclaimer.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    inputShowed: false,
-    inputVal: ""
+  
   },
-  showInput: function () {
-    this.setData({
-      inputShowed: true
-    });
-  },
-  hideInput: function () {
-    this.setData({
-      inputVal: "",
-      inputShowed: false
-    });
-  },
-  clearInput: function () {
-    this.setData({
-      inputVal: ""
-    });
-  },
-  inputTyping: function (e) {
-    this.setData({
-      inputVal: e.detail.value
-    });
-  },
-  search:function(){
-    console.info('searching ...');
-    this.hideInput();
-  },
+
   /**
    * 生命周期函数--监听页面加载
    */

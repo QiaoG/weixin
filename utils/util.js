@@ -14,6 +14,12 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+const myTrim = x => {
+  return x.replace(/^\s+|\s+$/gm, '');
+}
+
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  formatNumber:formatNumber,
+  myTrim: myTrim
 }

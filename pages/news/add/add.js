@@ -1,19 +1,33 @@
 // pages/news/add/add.js
-const app = getApp()
-const url = app.globalData.serverUrl + "/api/news"
-
+const app = getApp();
+const url = app.globalData.serverUrl + "/api/news";
+const util = require('../../../utils/util');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    title: null,
-    content: null,
-    source:null,
+    isAgree:false,
+    title: '',
+    content: '',
+    source:'',
+    code:'',
     adding:false
   },
-
+  init:function(){
+    this.setData({
+      title:'',
+      content:'',
+      source:''
+    })
+  },
+  bindAgreeChange:function(e){
+    console.info(e.detail.value.length);
+    this.setData({
+      isAgree: e.detail.value.length
+    });
+  },
   confirmTitle: function (e) {
     this.setData({
       title: e.detail.value

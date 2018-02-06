@@ -15,6 +15,7 @@
     "pages/my/register/register",
     "pages/my/discusses/discusses",
     "pages/user/userManage",
+    "pages/disclaimer/disclaimer",
     "pages/logs/logs",
     "pages/index/index"
   ],

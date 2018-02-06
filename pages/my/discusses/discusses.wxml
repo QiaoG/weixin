@@ -13,12 +13,12 @@
       <view class="weui-tab__panel">
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
         <view wx:if='{{discusses0.length==0}}' style='font-size:13px;color:#bebebe;margin:auto;'>没有评论</view>
-          <view class="weui-panel__bd" wx:for="{{discusses0}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:5px'>
-            <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:5px'>
+          <view class="weui-panel__bd" wx:for="{{discusses0}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
+            <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">
               <view style='flex:1;flex-grow:1;color:#aeaeae'>{{item.status==0?'未审':'已审'}}</view>
                 <view style='flex:2;flex-grow:8;color:#aeaeae;'>{{item.formatDate}}</view>
-                <view style='flex:3;flex-grow:1;padding-right:5px;color:#a0a000;' data-id='{{item}}' bindtap='deleteDis'>删除</view>
+                <view style='flex:3;flex-grow:1;padding-right:5px;color:#aeaeae;' data-id='{{item}}' bindtap='deleteDis'>删除</view>
               </view>
               <text class="weui-article__p" style='font-size:14px;font-weight: 400;'>{{item.content}}</text>
               <view class="weui-media-box__desc" style='padding-top:8px' data-id='{{item.discussSource}}' bindtap='detailNews'>{{item.sourceTitle}}</view>
@@ -27,8 +27,8 @@
         </view>
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
         <view wx:if='{{discusses1.length==0}}' style='font-size:13px;color:#bebebe;text-align: center;'>没有评论</view>
-          <view class="weui-panel__bd" wx:for="{{discusses1}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:5px'>
-            <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:5px'>
+          <view class="weui-panel__bd" wx:for="{{discusses1}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
+            <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">
                 <view class="weui-media-box__info__meta" style='flex:1;flex-grow:1;color:#aeaeae'>{{item.status==0?'未审':'已审'}}</view>
                 <view class="weui-media-box__info__meta" style='flex:2;flex-grow:8;color:#aeaeae'>{{item.formatDate}}</view>
