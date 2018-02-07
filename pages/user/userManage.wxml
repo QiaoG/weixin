@@ -11,7 +11,7 @@
       </view>
       <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
         <icon class="weui-icon-search" type="search" size="14"></icon>
-        <view class="weui-search-bar__text">搜索</view>
+        <view class="weui-search-bar__text">nickname.length==0?'搜索':nickname</view>
       </label>
     </view>
     <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed}}" bindtap="search">查询</view>

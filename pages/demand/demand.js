@@ -27,7 +27,6 @@ Page({
   },
   hideInput: function () {
     this.setData({
-      searchTitle: "",
       inputShowed: false
     });
   },
@@ -35,11 +34,21 @@ Page({
     this.setData({
       searchTitle: ""
     });
+    this.init();
   },
   inputTyping: function (e) {
     this.setData({
       searchTitle: e.detail.value
     });
+    this.init();
+    // if(e.detail.value.length == 0){
+    //   this.hideInput();
+    // }
+  },
+  search: function () {
+    this.hideInput();
+    this.init();
+    this.getDemands();
   },
   getDemands:function(){
     wx.request({

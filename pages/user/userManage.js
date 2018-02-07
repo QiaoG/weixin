@@ -71,7 +71,6 @@ Page({
   },
   hideInput: function () {
     this.setData({
-      nickname: "",
       inputShowed: false
     });
   },
@@ -84,11 +83,14 @@ Page({
     this.setData({
       nickname: e.detail.value
     });
+    if (e.detail.value.length == 0) {
+      this.hideInput();
+    }
   },
   search:function(){
-    this.hideInput();
     this.init();
     this.findUsers(this.data.nickname);
+    // this.hideInput();
   },
   /**
    * 生命周期函数--监听页面加载

@@ -8,6 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    inputShowed: false,
+    searchTitle: '',
     demands: [],
     nextPage: 0,
     currentPageSize: 0,
@@ -18,10 +20,41 @@ Page({
     this.data.nextPage = 0;
     this.currentPageSize = 0;
   },
+  showInput: function () {
+    this.setData({
+      inputShowed: true
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      inputShowed: false
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      searchTitle: ""
+    });
+    this.init();
+  },
+  inputTyping: function (e) {
+    this.setData({
+      searchTitle: e.detail.value
+    });
+    this.init();
+    // if(e.detail.value.length == 0){
+    //   this.hideInput();
+    // }
+  },
+  search: function () {
+    this.hideInput();
+    this.init();
+    this.getDemands();
+  },
   getDemands: function () {
     wx.request({
       url: url,
       data:{
+        title:this.data.searchTitle,
         verify:0,
         page: this.data.nextPage,
         size:pageSize

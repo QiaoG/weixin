@@ -28,7 +28,6 @@ Page({
   },
   hideInput: function () {
     this.setData({
-      searchTitle: "",
       inputShowed: false
     });
   },
@@ -41,13 +40,22 @@ Page({
     this.setData({
       searchTitle: e.detail.value
     });
+    this.init();
+    // if (e.detail.value.length == 0) {
+    //   this.hideInput();
+    // }
+  },
+  search: function () {
+    this.init();
+    this.getNewses();
+    this.hideInput();
   },
   getNewses: function () {
     this.setData({
       loading: true
     })
     var ns = this.data.newses;
-    console.log('page:' + this.data.nextPage)
+    console.log('page:' + this.data.nextPage+' title:'+this.data.searchTitle);
     wx.request({
       url: app.globalData.serverUrl + '/newses',
       data:{

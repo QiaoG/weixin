@@ -6,6 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    inputShowed:false,
+    searchTitle:'',
     currentPage: 0,
     currentPageSize: 0,
     newses: [],
@@ -16,15 +18,42 @@ Page({
     this.data.currentPageSize = 0
     this.data.newses.splice(0, this.data.newses.length)
   },
+  showInput: function () {
+    this.setData({
+      inputShowed: true
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      inputShowed: false
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      searchTitle: ""
+    });
+    this.init();
+  },
+  inputTyping: function (e) {
+    this.setData({
+      searchTitle: e.detail.value
+    });
+    this.init();
+  },
+  search: function () {
+    this.hideInput();
+    this.init();
+    this.getDemands();
+  },
   getNewses: function () {
-    var nextPage = this.data.currentPage + 1;
     var ns = this.data.newses;
-    console.log('page:' + nextPage)
+    console.log('page:' + this.data.currentPage);
     wx.request({
       url: app.globalData.serverUrl + '/newses',
       data: {
+        title: this.data.searchTitle,
         verify: 0,
-        page: nextPage,
+        page: this.data.currentPage,
         size: app.globalData.pageSize
       },
       success: res => {
@@ -33,12 +62,12 @@ Page({
         this.setData({
           newses: this.data.newses.concat(res.data)
         })
-        this.data.currentPage = nextPage
+        this.data.currentPage = this.data.currentPage+1;
         this.data.currentPageSize = res.data.length;
     
       },
       complete: () => {
-        console.info("请求结束...");
+        // console.info("请求结束...");
         this.setData({
           loading: false
         })

@@ -12,7 +12,6 @@
       </view>
       <view class="weui-tab__panel">
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-          <view wx:if='{{discusses0.length==0}}' style='font-size:13px;color:#bebebe;margin:auto;'>没有待审核热点</view>
           <view class="weui-search-bar">
             <view class="weui-search-bar__form">
               <view class="weui-search-bar__box">
@@ -29,6 +28,7 @@
             </view>
             <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed0}}" bindtap="search">查询</view>
           </view>
+          <view wx:if='{{discusses0.length==0}}' style='font-size:13px;color:#bebebe;margin:auto;'>没有待审核热点</view>
           <view class="weui-panel__bd" wx:for="{{discusses0}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
             <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">
@@ -41,7 +41,6 @@
           </view>
         </view>
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-          <view wx:if='{{discusses1.length==0}}' style='font-size:13px;color:#bebebe;text-align: center;'>没有待审核需求</view>
           <view class="weui-search-bar">
             <view class="weui-search-bar__form">
               <view class="weui-search-bar__box">
@@ -58,6 +57,7 @@
             </view>
             <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed1}}" bindtap="search">查询</view>
           </view>
+          <view wx:if='{{discusses1.length==0}}' style='font-size:13px;color:#bebebe;text-align: center;'>没有待审核需求</view>
           <view class="weui-panel__bd" wx:for="{{discusses1}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
             <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">

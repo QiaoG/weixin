@@ -10,10 +10,10 @@
       </view>
       <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
         <icon class="weui-icon-search" type="search" size="14"></icon>
-        <view class="weui-search-bar__text">搜索</view>
+        <view class="weui-search-bar__text">{{searchTitle.length==0?'搜索':searchTitle}}</view>
       </label>
     </view>
-    <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed}}" bindtap="search">查询</view>
+    <view class="weui-search-bar__cancel-btn" style='color:#909090;font-size:15px;' hidden="{{!inputShowed}}" bindtap="search">查询</view>
   </view>
   <view class="weui-panel__bd" wx:for="{{demands}}" wx:key="id" style=' background:#F4F4F4;padding:1px'>
     <view class="weui-media-box weui-media-box_text" data-id='{{item.id}}' bindtap='detail' style=' background:#FFFFFF;padding:8px'>

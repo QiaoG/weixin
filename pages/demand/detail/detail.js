@@ -36,13 +36,14 @@ Page({
     this.data.discusses.splice(0, this.data.discusses.length);
   },
   getDiscusses: function (newsId) {
+    var offset = this.data.discussNextPage * pageSize;
     wx.request({
       url: disUrl,
       data:{
-        status=1,
+        status:1,
         source: newsId,
-        type:1,
-        offset: his.data.discussNextPage * pageSize,
+        offset:offset,
+        type: 1,
         size: pageSize
       },
       success: res => {

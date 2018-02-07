@@ -50,7 +50,6 @@ Page({
   },
   hideInput0: function () {
     this.setData({
-      searchTitle0: "",
       inputShowed0: false
     });
   },
@@ -58,11 +57,16 @@ Page({
     this.setData({
       searchTitle0: ""
     });
+    this.init();
   },
   inputTyping0: function (e) {
     this.setData({
       searchTitle0: e.detail.value
     });
+    this.init(0);
+    // if (e.detail.value.length == 0) {
+    //   this.hideInput0();
+    // }
   },
   showInput1: function () {
     this.setData({
@@ -71,7 +75,6 @@ Page({
   },
   hideInput1: function () {
     this.setData({
-      searchTitle1: "",
       inputShowed1: false
     });
   },
@@ -84,6 +87,19 @@ Page({
     this.setData({
       searchTitle1: e.detail.value
     });
+    this.init(1);
+    // if (e.detail.value.length == 0) {
+    //   this.hideInput1();
+    // }
+  },
+  search: function () {
+    if (this.data.activeIndex == 0) {
+      this.hideInput0();
+    }else{
+      this.hideInput1();
+    }
+    this.init(this.data.activeIndex);
+    this.findDiscusses();
   },
 
   findDiscusses:function(){
@@ -93,20 +109,20 @@ Page({
       data:{
         status:0,
         type: this.data.activeIndex,
-        title: this.data[searchTitle + this.data.activeIndex],
+        title: this.data['searchTitle' + this.data.activeIndex],
         offset: (this.data['nextPage' + this.data.activeIndex] * pageSize),
         size:pageSize
       },
       success: res => {
-        console.log(res.data._embedded.discusses);
+        console.log(res.data);
         var i = 0;
-        res.data._embedded.discusses.forEach(function (value) {
+        res.data.forEach(function (value) {
           value['formatDate'] = value.createDate.split(' ')[0];
           value['index'] = i++;
         });
         if (this.data.activeIndex == 0){
           this.setData({
-            discusses0: this.data.discusses0.concat(res.data._embedded.discusses)
+            discusses0: this.data.discusses0.concat(res.data)
           })
           this.data.nextPage0 = this.data.nextPage0 + 1;
           this.data.currentPageSize0 = this.data.discusses0.length;
@@ -114,7 +130,7 @@ Page({
           console.log(this.data.nextPage0 + ',' + this.data.currentPageSize0);
         }else{
           this.setData({
-            discusses1: this.data.discusses1.concat(res.data._embedded.discusses)
+            discusses1: this.data.discusses1.concat(res.data)
           })
           this.data.nextPage1 = this.data.nextPage1 + 1;
           this.data.currentPageSize1 = this.data.discusses1.length;

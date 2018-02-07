@@ -1,7 +1,7 @@
 // pages/news/detail/detail.js
 const app = getApp()
 const newsUrl = app.globalData.serverUrl + "/api/news"
-const disUrl = app.globalData.serverUrl +"/api/discuss/search/sourceAndType"
+const disUrl = app.globalData.serverUrl +"/discusses/bySource"
 const addDisUrl = app.globalData.serverUrl + "/api/discuss"
 const pageSize = app.globalData.pageSize
 Page({
