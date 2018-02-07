@@ -2,7 +2,7 @@
 const app = getApp()
 const demandUrl = app.globalData.serverUrl + "/api/demands"
 const addDisUrl = app.globalData.serverUrl + "/api/discuss"
-const disUrl = app.globalData.serverUrl + "/api/discuss/search/sourceAndType"
+const disUrl = app.globalData.serverUrl + "/discusses/bySource"
 const pageSize = app.globalData.pageSize
 Page({
 
@@ -37,7 +37,14 @@ Page({
   },
   getDiscusses: function (newsId) {
     wx.request({
-      url: disUrl + '?status=1&source=' + newsId + '&type=1&offset=' + (this.data.discussNextPage * pageSize) + '&size=' + pageSize,
+      url: disUrl,
+      data:{
+        status=1,
+        source: newsId,
+        type:1,
+        offset: his.data.discussNextPage * pageSize,
+        size: pageSize
+      },
       success: res => {
         console.log(res.data._embedded.discusses)
         this.setData({

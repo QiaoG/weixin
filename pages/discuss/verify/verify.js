@@ -1,6 +1,6 @@
 // pages/discuss/verify/verify.js
 const app = getApp()
-const url = app.globalData.serverUrl + "/api/discuss/search/statusAndType"
+const url = app.globalData.serverUrl + "/discusses/byStatus"
 const pageSize = app.globalData.pageSize
 var sliderWidth = 96; 
 Page({
@@ -10,6 +10,10 @@ Page({
    */
   data: {
     tabs: ["热点评论", "需求评论"],
+    inputShowed0: false,
+    inputShowed1: false,
+    searchTitle0: '',
+    searchTitle1: '',
     activeIndex: 0,
     sliderOffset: 0,
     sliderLeft: 0,
@@ -39,11 +43,60 @@ Page({
       this.findDiscusses();
     }
   },
+  showInput0: function () {
+    this.setData({
+      inputShowed0: true
+    });
+  },
+  hideInput0: function () {
+    this.setData({
+      searchTitle0: "",
+      inputShowed0: false
+    });
+  },
+  clearInput0: function () {
+    this.setData({
+      searchTitle0: ""
+    });
+  },
+  inputTyping0: function (e) {
+    this.setData({
+      searchTitle0: e.detail.value
+    });
+  },
+  showInput1: function () {
+    this.setData({
+      inputShowed1: true
+    });
+  },
+  hideInput1: function () {
+    this.setData({
+      searchTitle1: "",
+      inputShowed1: false
+    });
+  },
+  clearInput1: function () {
+    this.setData({
+      searchTitle1: ""
+    });
+  },
+  inputTyping1: function (e) {
+    this.setData({
+      searchTitle1: e.detail.value
+    });
+  },
 
   findDiscusses:function(){
     this.data['loading' + this.data.activeIndex]=true;
     wx.request({
-      url: url + '?status=0&type=' + this.data.activeIndex + '&offset=' + (this.data['nextPage' + this.data.activeIndex] * pageSize) + '&size=' + pageSize,
+      url: url ,
+      data:{
+        status:0,
+        type: this.data.activeIndex,
+        title: this.data[searchTitle + this.data.activeIndex],
+        offset: (this.data['nextPage' + this.data.activeIndex] * pageSize),
+        size:pageSize
+      },
       success: res => {
         console.log(res.data._embedded.discusses);
         var i = 0;

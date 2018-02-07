@@ -71,13 +71,13 @@ Page({
   },
   hideInput: function () {
     this.setData({
-      inputVal: "",
+      nickname: "",
       inputShowed: false
     });
   },
   clearInput: function () {
     this.setData({
-      inputVal: ""
+      nickname: ""
     });
   },
   inputTyping: function (e) {

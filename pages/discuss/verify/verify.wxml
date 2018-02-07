@@ -12,7 +12,23 @@
       </view>
       <view class="weui-tab__panel">
         <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
-        <view wx:if='{{discusses0.length==0}}' style='font-size:13px;color:#bebebe;margin:auto;'>没有待审核热点</view>
+          <view wx:if='{{discusses0.length==0}}' style='font-size:13px;color:#bebebe;margin:auto;'>没有待审核热点</view>
+          <view class="weui-search-bar">
+            <view class="weui-search-bar__form">
+              <view class="weui-search-bar__box">
+                <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                <input type="text" class="weui-search-bar__input" placeholder="按热点标题查询" value="{{searchTitle0}}" focus="{{inputShowed0}}" bindinput="inputTyping0" />
+                <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput0">
+                  <icon type="clear" size="14"></icon>
+                </view>
+              </view>
+              <label class="weui-search-bar__label" hidden="{{inputShowed0}}" bindtap="showInput0">
+                <icon class="weui-icon-search" type="search" size="14"></icon>
+                <view class="weui-search-bar__text">搜索</view>
+              </label>
+            </view>
+            <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed0}}" bindtap="search">查询</view>
+          </view>
           <view class="weui-panel__bd" wx:for="{{discusses0}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
             <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">
@@ -25,7 +41,23 @@
           </view>
         </view>
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-        <view wx:if='{{discusses1.length==0}}' style='font-size:13px;color:#bebebe;text-align: center;'>没有待审核需求</view>
+          <view wx:if='{{discusses1.length==0}}' style='font-size:13px;color:#bebebe;text-align: center;'>没有待审核需求</view>
+          <view class="weui-search-bar">
+            <view class="weui-search-bar__form">
+              <view class="weui-search-bar__box">
+                <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+                <input type="text" class="weui-search-bar__input" placeholder="按需求标题查询" value="{{searchTitle1}}" focus="{{inputShowed1}}" bindinput="inputTyping1" />
+                <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput1">
+                  <icon type="clear" size="14"></icon>
+                </view>
+              </view>
+              <label class="weui-search-bar__label" hidden="{{inputShowed1}}" bindtap="showInput1">
+                <icon class="weui-icon-search" type="search" size="14"></icon>
+                <view class="weui-search-bar__text">搜索</view>
+              </label>
+            </view>
+            <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed1}}" bindtap="search">查询</view>
+          </view>
           <view class="weui-panel__bd" wx:for="{{discusses1}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
             <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">

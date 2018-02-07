@@ -6,8 +6,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    currentPage: 0,
-    currentPageSize: 0,
+    inputShowed: false,
+    searchTitle:'',
+    nextPage: 0,
+    pageSize: 0,
     newses: [],
     loading:false
   },
@@ -15,22 +17,43 @@ Page({
     return s.format("yyyy-MM-dd");
   },
   init:function(){
-    this.data.currentPage = 0
-    this.data.currentPageSize = 0
+    this.data.nextPage = 0
+    this.data.pageSize = 0
     this.data.newses.splice(0,this.data.newses.length)
+  },
+  showInput: function () {
+    this.setData({
+      inputShowed: true
+    });
+  },
+  hideInput: function () {
+    this.setData({
+      searchTitle: "",
+      inputShowed: false
+    });
+  },
+  clearInput: function () {
+    this.setData({
+      searchTitle: ""
+    });
+  },
+  inputTyping: function (e) {
+    this.setData({
+      searchTitle: e.detail.value
+    });
   },
   getNewses: function () {
     this.setData({
       loading: true
     })
-    var nextPage = this.data.currentPage + 1;
     var ns = this.data.newses;
-    console.log('page:' + nextPage)
+    console.log('page:' + this.data.nextPage)
     wx.request({
       url: app.globalData.serverUrl + '/newses',
       data:{
+        title:this.data.searchTitle,
         verify:1,
-        page:nextPage,
+        page:this.data.nextPage,
         size:app.globalData.pageSize
       },
       success: res => {
@@ -41,9 +64,9 @@ Page({
         this.setData({
           newses: this.data.newses.concat(res.data)
         })
-        this.data.currentPage = nextPage
-        this.data.currentPageSize = res.data.length;
-        console.log('page:' + this.data.currentPage + ' size:' + this.data.currentPageSize)
+        this.data.nextPage = this.data.nextPage+1;
+        this.data.pageSize = res.data.length;
+        console.log('page:' + this.data.nextPage + ' size:' + this.data.pageSize)
       },
       complete:() => {
         console.info("请求结束...");
@@ -119,7 +142,7 @@ Page({
     if(this.data.loading){
       return
     }
-    if (this.data.currentPageSize === app.globalData.pageSize) {
+    if (this.data.pageSize === app.globalData.pageSize) {
       this.getNewses()
     } else {
       console.log("have no newses!")
