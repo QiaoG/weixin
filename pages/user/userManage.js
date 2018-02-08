@@ -1,6 +1,7 @@
 // pages/user/userManage.js
 const app = getApp();
 const url = app.globalData.serverUrl + "/users/findByNicknameLike";
+const urlapi = app.globalData.serverUrl + "/api/user";
 const size = app.globalData.pageSize;
 Page({
 
@@ -35,9 +36,11 @@ Page({
       },
       success:res => {
         console.info(res.data);
+        var i = 0;
         res.data.forEach(value => {
           value['rolec'] = value.role.split('|')[0];
           value['rolen'] = value.role.split('|')[2];
+          value['index'] = i++;
         });
         this.setData({
           users: this.data.users.concat(res.data)
@@ -52,14 +55,72 @@ Page({
       }
     })
   },
+  deleteUser:function(user){
+    wx.request({
+      url: urlapi + '/' + user.id,
+      method: 'DELETE',
+      success: res => {
+        console.info(res);
+        this.data.users.splice(user.index, 1);
+        this.setData({
+          users: this.data.users
+        });
+      }
+    })
+  },
+  roleUser:function(user){
+    this.data.users[user.index]=user;
+    
+    wx.request({
+      url: urlapi + '/' + user.id,
+      method: 'PUT',
+      data: user,
+      success: res => {
+        console.info(res);
+        this.setData({
+          users: this.data.users
+        });
+        // this.init();
+        // this.findUsers(this.data.nickname);
+      }
+    })
+  },
   manage:function(e){
+    var that = this;
     console.info(e.target.dataset.id);
     var user = e.target.dataset.id;
     wx.showActionSheet({
       itemList: ['删除', user.rolec==2?'授权管理员':'取消管理员'],
       success: function (res) {
-        if (!res.cancel) {
-          console.log(res.tapIndex)
+        if (res.cancel) {
+          return;
+          // console.log(res.tapIndex)
+        }
+        if(res.tapIndex == 0){
+          wx.showModal({
+            title: '提示',
+            content: '确认删除用户吗？',
+            success: function (res) {
+              console.info(this);
+              if (res.confirm) {
+                that.deleteUser(user);
+              }
+            }
+          })
+        }
+        if (res.tapIndex == 1) {
+          var v = user.rolec;
+          var content = v == 2 ? '确认授权为管理员吗？' : '确认取消管理员授权吗？';
+          user.role = v == 2 ? '1|MANAGER|管理员' : '2|GENERAL|普通用户';
+          user.rolec = v == 2 ? 1 : 2;
+          user.rolen = v == 2 ? '管理员' : '普通用户'
+          wx.showModal({
+            title: '提示',
+            content: content,
+            success: function (res) {
+              that.roleUser(user);
+            }
+          })
         }
       }
     });
@@ -83,14 +144,12 @@ Page({
     this.setData({
       nickname: e.detail.value
     });
-    if (e.detail.value.length == 0) {
-      this.hideInput();
-    }
+    this.init();
   },
   search:function(){
     this.init();
     this.findUsers(this.data.nickname);
-    // this.hideInput();
+    this.hideInput();
   },
   /**
    * 生命周期函数--监听页面加载
@@ -150,7 +209,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.searching) {
+    if (this.data.searching || this.data.users.length==0) {
       return
     }
     if (this.data.pageSize === app.globalData.pageSize) {

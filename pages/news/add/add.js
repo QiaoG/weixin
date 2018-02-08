@@ -13,13 +13,15 @@ Page({
     content: '',
     source:'',
     code:'',
+    tip:'',
     adding:false
   },
   init:function(){
     this.setData({
       title:'',
       content:'',
-      source:''
+      source:'',
+      code:''
     })
   },
   bindAgreeChange:function(e){
@@ -40,24 +42,33 @@ Page({
     });
   },
 
+  confirmCode: function (e) {
+    this.setData({
+      code: e.detail.value
+    });
+  },
+
   confirmContent: function (e) {
     this.setData({
       content: e.detail.value
     });
   },
 
-  check:function(){
+  check:function(form){
+    console.info(form);
     if(this.data.title == null || this.data.content == null){
       return false;
     }
     return true;
   },
 
-  add: function () {
-    if(!this.check()){
+  add: function (e) {
+    console.info('submit ... ');
+    if (!this.check(e.detail.value)){
       console.info("有输为空");
       return;
     }
+    if(true) return;
     if(this.data.adding){
       return;
     }

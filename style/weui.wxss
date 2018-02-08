@@ -182,7 +182,7 @@ icon {
 }
 
 .weui-label {
-  width: 105px;
+  width: 65px;
   word-wrap: break-word;
   word-break: break-all;
 }

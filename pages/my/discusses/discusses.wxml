@@ -23,7 +23,7 @@
               </view>
               <label class="weui-search-bar__label" hidden="{{inputShowed0}}" bindtap="showInput0">
                 <icon class="weui-icon-search" type="search" size="14"></icon>
-                <view class="weui-search-bar__text">搜索</view>
+                <view class="weui-search-bar__text">{{searchTitle0.length==0?'搜索':searchTitle0}}</view>
               </label>
             </view>
             <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed0}}" bindtap="search">查询</view>
@@ -53,7 +53,7 @@
               </view>
               <label class="weui-search-bar__label" hidden="{{inputShowed1}}" bindtap="showInput1">
                 <icon class="weui-icon-search" type="search" size="14"></icon>
-                <view class="weui-search-bar__text">搜索</view>
+                <view class="weui-search-bar__text">{{searchTitle1.length==0?'搜索':searchTitle1}}</view>
               </label>
             </view>
             <view class="weui-search-bar__cancel-btn" style='color:#909090' hidden="{{!inputShowed1}}" bindtap="search">查询</view>
