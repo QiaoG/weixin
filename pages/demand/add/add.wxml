@@ -3,26 +3,32 @@
   <form bindsubmit='add'>
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__hd">
-        <view class="weui-label" style='font-size:14;'>标题:</view>
+        <view class="weui-label" style='font-size:17px;width:75px'>标题:</view>
       </view>
       <view class="weui-cell__bd">
         <input class="weui-input" name='title' placeholder="请输入需求标题" style='font-size:16px' />
       </view>
     </view>
     <view class="weui-cell weui-cell_input" style='height:2em;'>
+      <view class="weui-cell__hd">
+        <view class="weui-label" style='font-size:16px;width:75px;'>失效日期:</view>
+      </view>
       <view class="weui-cell__bd">
         <picker mode="date" name="date" start="2018-01-01" end="2021-12-31" bindchange="bindDateChange">
           <view class="picker" style='font-size:15px;'>
-            失效日期: {{date}}
+            {{date}}
           </view>
         </picker>
       </view>
     </view>
     <view class="weui-cell weui-cell_input" style='height:2em;'>
+      <view class="weui-cell__hd">
+        <view class="weui-label" style='font-size:16px;width:75px;'>类型:</view>
+      </view>
       <view class="weui-cell__bd">
         <picker bindchange="bindTypeChange" name="index" range-key='name' range="{{typeArray}}">
           <view class="picker" style='font-size:15px;'>
-            类型: {{typeArray[index]['name']}}
+            {{typeArray[index]['name']}}
           </view>
         </picker>
       </view>

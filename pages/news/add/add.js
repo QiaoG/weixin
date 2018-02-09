@@ -56,46 +56,70 @@ Page({
 
   check:function(form){
     console.info(form);
-    if(this.data.title == null || this.data.content == null){
+    if(form.title == null || util.myTrim(form.title).length==0){
+      wx.showToast({
+        title: '标题不能为空！',
+        duration: 2000
+      })
+      return false;
+    }
+    // if (form.code == null || util.myTrim(form.code).length != 6) {
+    //   wx.showToast({
+    //     title: '证劵代码为6位数字！',
+    //     duration: 2000
+    //   })
+    //   return false;
+    // }
+    if (form.content == null || util.myTrim(form.content).length == 0) {
+      wx.showToast({
+        title: '内容不能为空！',
+        duration: 1500
+      })
       return false;
     }
     return true;
   },
 
   add: function (e) {
-    console.info('submit ... ');
+    console.info('submit ... ' + app.globalData.userInfo.nickName);
+    if(true) return;
+    var form = e.detail.value;
     if (!this.check(e.detail.value)){
-      console.info("有输为空");
+      console.info("输为不合乎要求");
       return;
     }
-    if(true) return;
     if(this.data.adding){
       return;
     }
     this.setData({
       adding:true
     });
+    wx.showToast({
+      title: '新建热点',
+      icon:'loading'
+    })
     wx.request({
       url: url,
       method: 'POST',
       header: { 'Content-Type': 'application/json' },
       data:{
-        title:this.data.title,
-        newsSource:this.data.source,
-        content:this.data.content,
+        title:form.title,
+        newsSource:form.source,
+        code:form.code,
+        content:form.content,
         createDate:Date.now(),
         publisherId:0,
         status: app.globalData.manager?1:0,
         authorId: app.globalData.topUser.id,
-        authorNickName: app.globalData.userInfo.nickname
+        authorNickName: app.globalData.userInfo.nickName
       },
       success:res => {
         console.info(res);
-        wx.showToast({
-          title: '添加完成',
-          icon: 'success',
-          duration: 2000
-        })
+        // wx.showToast({
+        //   title: '添加完成',
+        //   icon: 'success',
+        //   duration: 2000
+        // })
         var pages = getCurrentPages();
         var currPage = pages[pages.length - 1];   //当前页面
         var prevPage = pages[pages.length - 2];
@@ -109,6 +133,7 @@ Page({
         this.setData({
           adding:false
         });
+        wx.hideToast();
       }
     })
   },

@@ -886,7 +886,7 @@ icon {
 
 .weui-panel__bd{
   background:#F4F4F4;
-  padding:1px;
+  padding:0px;
 }
 
 .weui-panel:first-child {

@@ -15,7 +15,7 @@
     </view>
     <view class="weui-search-bar__cancel-btn" style='color:#909090;font-size:15px;' hidden="{{!inputShowed}}" bindtap="search">查询</view>
   </view>
-  <view class="weui-panel__bd" wx:for="{{newses}}" wx:key="id">
+  <view class="weui-panel__bd" wx:for="{{newses}}" wx:key="id" style='padding-right:10px;'>
     <view class="weui-media-box weui-media-box_text" data-id='{{item.id}}' bindtap='detail' style=' background:#FFFFFF;padding:7px;'>
       <view class="weui-media-box__title weui-media-box__title_in-text">{{item.title}}</view>
       <view class="weui-media-box__desc">{{item.content}}</view>
