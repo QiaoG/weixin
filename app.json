@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/news/news",
     "pages/news/detail/detail",
     "pages/news/add/add",
@@ -19,26 +19,34 @@
     "pages/logs/logs",
     "pages/index/index"
   ],
-  "tabBar":{
-    "list":[{
-      "pagePath":"pages/news/news",
-      "text":"热点"
-    },{
-      "pagePath": "pages/demand/demand",
-      "text": "需求"
-    },{
-      "pagePath": "pages/my/my",
-      "text": "我的"
-    }],
-    "position":"top",
-    "selectedColor":"#e14834"
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/my/register/register",
+        "text": "注册"
+      },
+      {
+        "pagePath": "pages/news/news",
+        "text": "热点"
+      },
+      {
+        "pagePath": "pages/demand/demand",
+        "text": "需求"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的"
+      }
+    ],
+    "position": "top",
+    "selectedColor": "#e14834"
   },
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle":"black",
+    "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true,
-    "onReachBottomDistance":25
+    "onReachBottomDistance": 25
   }
 }
