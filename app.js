@@ -11,17 +11,44 @@ App({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         console.log(res)
-        this.globalData.sessionCode=res.code
-        this.getWxUser()
+        this.globalData.sessionCode = res.code
+        this.loginTop();
       }
     })
-    //"Q0j4TwGTfTIA8LGHsBaYFXdArAbvBVn53YicC6F66hcnMpu9aickCarRnIdP9nu6VrzJ0lZ0UQ7vdJbTlw7m3cgw"
   },
+
+  loginTop: function () {
+    wx.showLoading({
+      title: '登陆',
+    })
+    wx.request({
+      url: this.globalData.serverUrl + '/wx/login',
+      data: {
+        'code': this.globalData.sessionCode
+      },
+      success: res => {
+        console.info(res.data);
+        if (res.data.data) {
+          this.globalData.topUser = res.data.data;
+          this.globalData.manager = res.data.data.role.split('|')[0] < 2;
+          if (this.userInfoReadyCallback) {
+            this.userInfoReadyCallback(res.data);
+          }
+        }else{
+          console.info('用户不存在！');
+        }
+      },
+      complete: () => {
+        wx.hideLoading();
+      }
+    })
+  },
+
   getWxUser: function () {
     wx.getSetting({
       success: res => {
         console.log(res)
-        if (true){//res.authSetting['scope.userInfo']) {
+        if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             //withCredentials: true,
@@ -37,23 +64,23 @@ App({
               }
               console.info('###################');
               wx.request({
-                url: this.globalData.serverUrl+"/api/user/search/findByNickname",
-                data:{name:res.userInfo.nickName},
-                success:res => {
+                url: this.globalData.serverUrl + "/api/user/search/findByNickname",
+                data: { name: res.userInfo.nickName },
+                success: res => {
                   console.info(res);
                   var users = res.data._embedded.users;
-                  if(users.length > 0){
+                  if (users.length > 0) {
                     this.globalData.topUser = users[0];
                     var link = users[0]._links.self.href;
                     //console.info(link)
-                    this.globalData.topUser["id"]=link.substring(link.lastIndexOf("/")+1);
-                    this.globalData.manager=users[0].role.split('|')[0]<2;
-                    this.globalData.register=true;
+                    this.globalData.topUser["id"] = link.substring(link.lastIndexOf("/") + 1);
+                    this.globalData.manager = users[0].role.split('|')[0] < 2;
+                    this.globalData.register = true;
                     console.info(this.globalData.topUser)
                   }
-                  
+
                 },
-                complete:(e) => {
+                complete: (e) => {
                   console.info(e);
                 }
               })
@@ -69,12 +96,12 @@ App({
     console.log(e.detail.encryptedData)
   },
   globalData: {
-    sessionCode:null,
+    sessionCode: null,
     userInfo: null,
     topUser: null,
     serverUrl: 'http://localhost:8088',
-    manager:false,
-    register:false,
+    manager: false,
+    register: false,
     pageSize: 5
   }
 })

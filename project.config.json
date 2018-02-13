@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.7.2",
 	"appid": "wxa2fad04343e01afe",
-	"projectname": "helloworld",
+	"projectname": "marketinfo",
 	"condition": {
 		"search": {
 			"current": -1,

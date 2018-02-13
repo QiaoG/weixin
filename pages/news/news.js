@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    login:false,
     inputShowed: false,
     searchTitle:'',
     nextPage: 0,
@@ -92,13 +93,37 @@ Page({
   },
   add:function(e){
     wx.navigateTo({
-      url: 'add/add',
+      url: this.data.login?'add/add':'../my/register/register',
     })
   },
+
+  loginComplete: function () {
+    this.setData({
+      login: true
+    })
+  },
+  loginComplete: function () {
+    this.setData({
+      login: true
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (app.globalData.topUser){
+     this.setData({
+      login:true
+     })
+    }else{
+      app.userInfoReadyCallback = res => {
+        console.info('app ready call back: ' + JSON.stringify(res));
+        this.setData({
+          login: true
+        })
+      }
+    }
     this.getNewses()
 
   },

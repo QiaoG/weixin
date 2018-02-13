@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    login:false,
     inputShowed: false,
     searchTitle:'',
     demands:[],
@@ -70,11 +71,26 @@ Page({
       }
     })
   },
-
+  loginComplete: function () {
+    this.setData({
+      login: true
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (app.globalData.topUser) {
+      this.setData({
+        login: true
+      })
+    } else {
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          login: true
+        })
+      }
+    }
     this.getDemands();
   },
 
@@ -87,7 +103,7 @@ Page({
   },
   add: function (e) {
     wx.navigateTo({
-      url: 'add/add',
+      url: this.data.login ? 'add/add' : '../my/register/register',
     })
   },
 

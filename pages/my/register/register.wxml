@@ -1,4 +1,38 @@
 <!--pages/my/register/register.wxml-->
 <view class='page'>
-  <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机</button>
+  <button wx:if='{{step==1}}' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机</button>
+  <button wx:if="{{canIUse && step==2}}" open-type="getUserInfo" bindgetuserinfo="getUserInfos"> 获取昵称 </button>
+  <form wx:if='{{step == 3}}' bindsubmit='add'>
+    <view class="weui-cell weui-cell_input" style='height:2em;'>
+      <view class="weui-cell__hd">
+        <view class="weui-label" style='font-size:16px;width:75px;'>企业类型:</view>
+      </view>
+      <view class="weui-cell__bd">
+        <picker bindchange="bindTypeChange" name="index" range-key='name' range="{{enterpriseType}}">
+          <view class="picker" style='font-size:15px;'>
+            {{enterpriseType[index]['name']}}
+          </view>
+        </picker>
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input" wx:if='{{index!=6}}'>
+      <view class="weui-cell__hd">
+        <view class="weui-label" style='font-size:17px;width:75px'>企业名称:</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" name='title' disabled='{{index==6}}' placeholder="请输入需求标题" style='font-size:16px' />
+      </view>
+    </view>
+    <view class="weui-cell weui-cell_input" wx:if='{{index!=6}}'>
+      <view class="weui-cell__hd">
+        <view class="weui-label" style='font-size:17px;width:75px'>证劵代码:</view>
+      </view>
+      <view class="weui-cell__bd">
+        <input class="weui-input" disabled='{{index==6}}' name='code' maxlength='6' type='number' placeholder="6位数字" style='font-size:16px' />
+      </view>
+    </view>
+    <view class="section-input" style='height:4em;'>
+      <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' form-type='submit'>注册完成</button>
+    </view>
+  </form>
 </view>

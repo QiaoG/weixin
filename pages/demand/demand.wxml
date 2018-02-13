@@ -15,18 +15,20 @@
     </view>
     <view class="weui-search-bar__cancel-btn" style='color:#909090;font-size:15px;' hidden="{{!inputShowed}}" bindtap="search">查询</view>
   </view>
-  <view class="weui-panel__bd" wx:for="{{demands}}" wx:key="id" style=' background:#F4F4F4;padding:1px'>
-    <view class="weui-media-box weui-media-box_text" data-id='{{item.id}}' bindtap='detail' style=' background:#FFFFFF;padding:8px'>
-      <view class="weui-media-box__title weui-media-box__title_in-text">{{item.title}}</view>
-      <view class="weui-media-box__desc">{{item.content}}</view>
-      <view class="weui-media-box__info">
-        <view class="weui-media-box__info__meta">评论:{{item.discussCount}}</view>
-        <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">{{item.publishDate}}</view>
+  <view class="page" wx:for="{{demands}}" wx:key="id" style=' padding-right:10px;'>
+    <view class='weui-cell weui-cell_input'>
+      <view class=" weui-media-box weui-media-box_text " data-id='{{item.id}}' bindtap='detail' style=' background:#FFFFFF;padding:7px'>
+        <view class="weui-media-box__title weui-media-box__title_in-text ">{{item.title}}</view>
+        <view class="weui-media-box__desc ">{{item.content}}</view>
+        <view class="weui-media-box__info ">
+          <view class="weui-media-box__info__meta ">评论:{{item.discussCount}}</view>
+          <view class="weui-media-box__info__meta weui-media-box__info__meta_extra ">{{item.publishDate}}</view>
+        </view>
       </view>
     </view>
   </view>
   <view style='height:3.2em;'></view>
-  <view class="section-input" style='height:4em'>
+  <view class="section-input " style='height:4em'>
     <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' bindtap='add'>添加需求</button>
   </view>
 </view>

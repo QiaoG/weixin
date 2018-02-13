@@ -8,41 +8,42 @@ Page({
    * 页面的初始数据
    */
   data: {
-    newsNum:0,
-    demandNum:0,
-    discussNum:0,
-    manager:false
+    login: false,
+    newsNum: 0,
+    demandNum: 0,
+    discussNum: 0,
+    manager: false
   },
-  refreshCount:function(){
+  refreshCount: function () {
     wx.request({
       url: urlNum,
-      success:res => {
+      success: res => {
         console.info(res.data['newsCount']);
         this.setData({
           newsNum: res.data['newsCount'],
-          demandNum:res.data['demandCount'],
-          discussNum:res.data.discussCount
+          demandNum: res.data['demandCount'],
+          discussNum: res.data.discussCount
         });
       }
     })
   },
-  verifyNews:function(){
+  verifyNews: function () {
     wx.navigateTo({
       url: '../news/verifys/verifys',
     })
   },
 
-  verifyDemands:function(){
+  verifyDemands: function () {
     wx.navigateTo({
       url: '../demand/verifys/verifys',
     })
   },
-  verifyDiscuss:function(){
+  verifyDiscuss: function () {
     wx.navigateTo({
       url: '../discuss/verify/verify',
     })
   },
-  userManage:function(){
+  userManage: function () {
     wx.navigateTo({
       url: '../user/userManage',
     })
@@ -56,8 +57,27 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (app.globalData.topUser) {
+      this.setData({
+        login: true
+      })
+      this.setData({
+        manager: app.globalData.topUser.role.split('|')[0] < 2
+      });
+      this.refreshCount();
+    }else{
+      wx.navigateTo({
+        url: 'register/register',
+      })
+    }
+  },
+
+  loginComplete:function(){
     this.setData({
-      manager: app.globalData.manager
+      login: true
+    })
+    this.setData({
+      manager: app.globalData.topUser.role.split('|')[0] < 2
     });
     this.refreshCount();
   },
@@ -66,48 +86,48 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

@@ -12,19 +12,15 @@
     "pages/demand/verifys/verifys",
     "pages/discuss/verify/verify",
     "pages/my/my",
-    "pages/my/register/register",
     "pages/my/discusses/discusses",
     "pages/user/userManage",
     "pages/disclaimer/disclaimer",
     "pages/logs/logs",
-    "pages/index/index"
+    "pages/index/index",
+    "pages/my/register/register"
   ],
   "tabBar": {
     "list": [
-      {
-        "pagePath": "pages/my/register/register",
-        "text": "注册"
-      },
       {
         "pagePath": "pages/news/news",
         "text": "热点"
