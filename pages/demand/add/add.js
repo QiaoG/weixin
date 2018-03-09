@@ -57,7 +57,8 @@ Page({
     wx.request({
       url: url,
       method: 'POST',
-      header: { 'Content-Type': 'application/json' },
+      header: { 'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + app.globalData.topUser.token },
       data: {
         'type':this.data.index,
         title: form.title,

@@ -179,7 +179,8 @@ Page({
     wx.request({
       url: userUrl+'/'+user.id,
       method: 'PUT',
-      header: { 'Content-Type': 'application/json' },
+      header: { 'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + app.globalData.topUser.token },
       data: user,
       success: res => {
         console.info(res);
