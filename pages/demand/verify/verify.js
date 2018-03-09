@@ -17,6 +17,7 @@ Page({
     wx.request({
       url: demandUrl + '/' + this.data.demandId,
       method: 'PUT',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       data: this.data.demand,
       success: res => {
         console.info(res);
@@ -24,6 +25,15 @@ Page({
           title: '审核完成',
           icon: 'success',
           duration: 2000
+        })
+        var pages = getCurrentPages();
+        var currPage = pages[pages.length - 1];   //当前页面
+        var prevPage = pages[pages.length - 2];
+        var pprePage = pages[pages.length - 3];
+        pprePage.refreshCount();
+        prevPage.search();
+        wx.navigateBack({
+          delta: 1
         })
       },
       complete:() =>{

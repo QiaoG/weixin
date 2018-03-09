@@ -10,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    login:false,
     news:null,
     newsId:null,
     discussNextPage:0,
@@ -38,9 +39,9 @@ Page({
     wx.request({
       url: disUrl + '?status=1&source='+newsId+'&type=0&offset=' + (this.data.discussNextPage*pageSize)+'&size='+pageSize,
       success:res => {
-        console.log(res.data._embedded.discusses)
+        console.log(res.data)
         this.setData({
-          discusses:this.data.discusses.concat(res.data._embedded.discusses)
+          discusses:this.data.discusses.concat(res.data)
         })
         this.data.discussNextPage = this.data.discussNextPage+1
         this.data.discussCurrentPageSize = this.data.discusses.length
@@ -49,6 +50,11 @@ Page({
     })
   },
   addDiscuss: function (e) {
+    if(!this.data.login){
+      wx.navigateTo({
+        url: '../../my/register/register',
+      })
+    }
     var dis = {};
     dis['discussSource'] = this.data.newsId;
     dis['sourceType'] = 0;
@@ -61,6 +67,7 @@ Page({
     wx.request({
       url: addDisUrl,
       method: 'POST',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       data: dis,
       success: res => {
         console.info(res);
@@ -83,6 +90,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (app.globalData.topUser) {
+      this.setData({
+        login: true
+      })
+    }
     this.getNews(options.id)
   },
 

@@ -64,22 +64,26 @@ Page({
       this.setData({
         manager: app.globalData.topUser.role.split('|')[0] < 2
       });
-      this.refreshCount();
-    }else{
+      if (this.data.manager) {
+        this.refreshCount();
+      }
+    } else {
       wx.navigateTo({
         url: 'register/register',
       })
     }
   },
 
-  loginComplete:function(){
+  loginComplete: function () {
     this.setData({
       login: true
     })
     this.setData({
       manager: app.globalData.topUser.role.split('|')[0] < 2
     });
-    this.refreshCount();
+    if (this.data.manager) {
+      this.refreshCount();
+    }
   },
 
   /**
@@ -93,7 +97,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
   },
 
   /**

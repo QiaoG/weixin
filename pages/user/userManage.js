@@ -59,6 +59,7 @@ Page({
     wx.request({
       url: urlapi + '/' + user.id,
       method: 'DELETE',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       success: res => {
         console.info(res);
         this.data.users.splice(user.index, 1);
@@ -74,6 +75,7 @@ Page({
     wx.request({
       url: urlapi + '/' + user.id,
       method: 'PUT',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       data: user,
       success: res => {
         console.info(res);

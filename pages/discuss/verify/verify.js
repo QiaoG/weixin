@@ -152,6 +152,7 @@ Page({
     wx.request({
       url: u,
       method: 'PUT',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       data: d,
       success: res => {
         console.info(res);

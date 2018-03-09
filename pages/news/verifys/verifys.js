@@ -43,7 +43,7 @@ Page({
   search: function () {
     this.hideInput();
     this.init();
-    this.getDemands();
+    this.getNewses();
   },
   getNewses: function () {
     var ns = this.data.newses;

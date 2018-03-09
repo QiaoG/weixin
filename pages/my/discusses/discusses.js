@@ -1,6 +1,7 @@
 // pages/my/discusses/discusses.js
 const app = getApp()
 const url = app.globalData.serverUrl + "/discusses/byAuthor"
+const api = app.globalData.serverUrl + "/api/discuss"
 const pageSize = app.globalData.pageSize
 var sliderWidth = 96;
 Page({
@@ -148,11 +149,12 @@ Page({
 
   deleteDis:function(e){
     console.info(e.target);
-    var u = e.target.dataset.id._links.self.href;
+    var u = api+'/'+e.target.dataset.id.id;
     var d = e.target.dataset.id;
     wx.request({
       url: u,
       method: 'DELETE',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       success: res => {
         console.info(res);
         if (this.data.activeIndex == 0) {
