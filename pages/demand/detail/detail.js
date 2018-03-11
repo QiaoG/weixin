@@ -47,9 +47,9 @@ Page({
         size: pageSize
       },
       success: res => {
-        console.log(res.data._embedded.discusses)
+        console.log(res.data)
         this.setData({
-          discusses: this.data.discusses.concat(res.data._embedded.discusses)
+          discusses: this.data.discusses.concat(res.data)
         })
         this.data.discussNextPage = this.data.discussNextPage + 1
         this.data.discussCurrentPageSize = this.data.discusses.length
@@ -70,6 +70,7 @@ Page({
     wx.request({
       url: addDisUrl,
       method:'POST',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       data:dis,
       success:res => {
         console.info(res);

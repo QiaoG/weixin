@@ -1,7 +1,11 @@
 <!--pages/my/register/register.wxml-->
 <view class='page'>
-  <button wx:if='{{step==1}}' open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">绑定手机</button>
-  <button wx:if="{{canIUse && step==2}}" open-type="getUserInfo" bindgetuserinfo="getUserInfos"> 获取昵称 </button>
+  <view wx:if='{{step==2}}' style='font-size: 15px;padding: 0.5em;height:4em;'>
+    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='weui-btn' style='background:#e14834;' type='primary'>绑定手机</button>
+  </view>
+  <view wx:if='{{canIUse && step==1}}' style='font-size: 15px;padding: 0.5em;height:4em;'>
+    <button open-type="getUserInfo" bindgetuserinfo="getUserInfos" class='weui-btn' style='background:#e14834;' type='primary'> 获取昵称 </button>
+  </view>
   <form wx:if='{{step == 3}}' bindsubmit='add'>
     <view class="weui-cell weui-cell_input" style='height:2em;'>
       <view class="weui-cell__hd">

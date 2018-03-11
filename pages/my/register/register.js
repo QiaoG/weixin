@@ -47,40 +47,24 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
-    app.globalData.topUser['nickname'] = app.globalData.userInfo.nickName;
-    app.globalData.topUser['avatarUrl'] = app.globalData.userInfo.avatarUrl;
-    wx.showLoading({
-      title: '',
-    })
-    wx.request({
-      url: userUrl + '/' + app.globalData.topUser.id,
-      method: 'PUT',
-      header: { 'Content-Type': 'application/json',
-       'Authorization': 'Bearer ' + app.globalData.topUser.token },
-      data: app.globalData.topUser,
-      success: res => {
-        console.info(res);
-        wx.hideLoading();
-      },
-      complete: () => {
-        wx.hideLoading();
-      }
-    })
     this.setData({
-      step:3
+      step:2
     })
   },
 
   getPhoneNumber: function (e) {
     if (typeof (e.detail.iv) == "undefined") {
+      wx.showModal({
+        title: '提示',
+        content: '程序需要获取用户手机号，请授权！',
+        showCancel: false
+      })
       return
     }
     this.setData({
       iv: e.detail.iv,
       encData: e.detail.encryptedData
     })
-    console.log(e.detail.iv)
-    console.log(e.detail.encryptedData)
     this.checkSession()
   },
   checkSession: function () {
@@ -122,7 +106,12 @@ Page({
           this.data.sessionKey = res.data.data.sessionKey;
           wx.request({
             url: url + "/dcymobile",
-            data: { 'key': that.data.sessionKey, 'encData': that.data.encData, 'iv': that.data.iv },
+            data: { 
+              'key': that.data.sessionKey, 
+            'encData': that.data.encData, 
+            'iv': that.data.iv,
+            'nickname':that.data.userInfo.nickName,
+            'avatarUrl': that.data.userInfo.avatarUrl },
             success: res => {
               console.info(res);
               if (res.data.code != 0) {
@@ -134,10 +123,11 @@ Page({
                 })
               }else{
                 app.globalData.topUser = res.data.data;
+                app.globalData.manager = res.data.data.role.split('|')[0] < 2;
                 this.setData({
-                  step:2
+                  step:3
                 })
-                console.info('create user success!' + this.data.step + ' ' + this.data.canIUse)
+                console.info('create user success!' + this.data.step + ' ' + this.data.canIUse + ' ' + app.globalData.manager)
               }
             },
             complete:() => {

@@ -53,6 +53,11 @@ Page({
       url: 'discusses/discusses',
     })
   },
+  registe:function(){
+    wx.navigateTo({
+      url: 'register/register',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -67,11 +72,7 @@ Page({
       if (this.data.manager) {
         this.refreshCount();
       }
-    } else {
-      wx.navigateTo({
-        url: 'register/register',
-      })
-    }
+    } 
   },
 
   loginComplete: function () {
@@ -97,6 +98,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    if (app.globalData.topUser) {
+      this.setData({
+        login:true
+      });
+    }
   },
 
   /**

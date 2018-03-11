@@ -113,10 +113,12 @@ Page({
    */
   onLoad: function (options) {
     if (app.globalData.topUser){
+      console.info("has logined");
      this.setData({
       login:true
      })
     }else{
+      console.info("not logined");
       app.userInfoReadyCallback = res => {
         console.info('app ready call back: ' + JSON.stringify(res));
         this.setData({
@@ -139,7 +141,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    if (app.globalData.topUser) {
+      console.info("has logined");
+      this.setData({
+        login: true
+      })
+    }
   },
 
   /**

@@ -68,7 +68,7 @@ Page({
         publisherId: app.globalData.topUser.id,
         verifyId:0,
         invalidDate:this.data.date+' 00:00:00',
-        publisherNickName: app.globalData.userInfo.nickName
+        publisherNickName: app.globalData.topUser.nickname
       },
       success: res => {
         console.info(res);

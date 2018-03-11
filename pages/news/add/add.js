@@ -81,8 +81,6 @@ Page({
   },
 
   add: function (e) {
-    console.info('submit ... ' + app.globalData.userInfo.nickName);
-    if(true) return;
     var form = e.detail.value;
     if (!this.check(e.detail.value)){
       console.info("输为不合乎要求");
@@ -101,7 +99,8 @@ Page({
     wx.request({
       url: url,
       method: 'POST',
-      header: { 'Content-Type': 'application/json' },
+      header: { 'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + app.globalData.topUser.token  },
       data:{
         title:form.title,
         newsSource:form.source,
@@ -111,7 +110,7 @@ Page({
         publisherId:0,
         status: app.globalData.manager?1:0,
         authorId: app.globalData.topUser.id,
-        authorNickName: app.globalData.userInfo.nickName
+        authorNickName: app.globalData.topUser.nickname
       },
       success:res => {
         console.info(res);

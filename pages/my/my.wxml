@@ -27,9 +27,15 @@
     </view>
     <view class="weui-cell__ft weui-cell__ft_in-access"></view>
   </view>
-  <view class="weui-cell weui-cell_access" bindtap='myDiscuss'>
+  <view class="weui-cell weui-cell_access" wx:if='{{login}}' bindtap='myDiscuss'>
     <view class="weui-cell__bd">
       <view style="display: inline-block; vertical-align: middle">我的评论</view>
+    </view>
+    <view class="weui-cell__ft weui-cell__ft_in-access" ></view>
+  </view>
+  <view class="weui-cell weui-cell_access" wx:if='{{!login}}' bindtap='registe'>
+    <view class="weui-cell__bd">
+      <view style="display: inline-block; vertical-align: middle">用户注册</view>
     </view>
     <view class="weui-cell__ft weui-cell__ft_in-access" ></view>
   </view>
