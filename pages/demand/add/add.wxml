@@ -14,7 +14,7 @@
         <view class="weui-label" style='font-size:16px;width:75px;'>失效日期:</view>
       </view>
       <view class="weui-cell__bd">
-        <picker mode="date" name="date" start="2018-01-01" end="2021-12-31" bindchange="bindDateChange">
+        <picker mode="date" name="date" start="2018-02-01" end="2021-12-31" bindchange="bindDateChange">
           <view class="picker" style='font-size:15px;'>
             {{date}}
           </view>
@@ -23,10 +23,10 @@
     </view>
     <view class="weui-cell weui-cell_input" style='height:2em;'>
       <view class="weui-cell__hd">
-        <view class="weui-label" style='font-size:16px;width:75px;'>类型:</view>
+        <view class="weui-label" style='font-size:16px;width:75px;'>需求类型:</view>
       </view>
       <view class="weui-cell__bd">
-        <picker bindchange="bindTypeChange" name="index" range-key='name' range="{{typeArray}}">
+        <picker bindchange="bindTypeChange" value='{{index}}' range-key='name' range="{{typeArray}}">
           <view class="picker" style='font-size:15px;'>
             {{typeArray[index]['name']}}
           </view>
@@ -35,11 +35,25 @@
     </view>
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请输入需求内容" name='content' style="height: 26.6em;font-size: 14px;top:5px" />
+        <textarea class="weui-textarea" placeholder="请输入需求内容" name='content' style="height: 28em;font-size: 14px;top:5px" />
       </view>
     </view>
+    <view class="weui-cell weui-cell_input">
+      <checkbox-group bindchange="bindAgreeChange">
+        <label class="weui-agree" for="weuiAgree">
+          <view class="weui-agree__text">
+            <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
+            <view class="weui-agree__checkbox-icon">
+              <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
+            </view>
+            阅读并同意
+            <navigator url="../../disclaimer/disclaimer" class="weui-agree__link">《相关条款》</navigator>
+          </view>
+        </label>
+      </checkbox-group>
+    </view>
     <view class="section-input" style='height:4em;'>
-      <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' form-type='submit' disabled='{{adding}}'>添加</button>
+      <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' form-type='submit' disabled='{{adding||!isAgree}}'>发布</button>
     </view>
   </form>
 </view>

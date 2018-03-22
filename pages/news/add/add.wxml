@@ -27,7 +27,7 @@
     </view>
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请输入新闻内容" maxlength='-1' name='content' style="height: 28em;font-size: 13px;top:5px" />
+        <textarea class="weui-textarea" placeholder="请输入新闻内容" maxlength='-1' name='content' style="height: 28em;font-size: 14px;top:5px" />
       </view>
     </view>
     <view class="weui-cell weui-cell_input">

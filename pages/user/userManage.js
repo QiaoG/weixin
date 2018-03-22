@@ -22,11 +22,12 @@ Page({
     this.data.nextPage = 0;
     this.data.pageSize = 0;
   },
-  findUsers:function(name){
+  findUsers:function(name,fresh){
     console.info("search:"+name)
     this.setData({
       searching:true
     })
+    wx.showNavigationBarLoading();
     wx.request({
       url: url,
       data:{
@@ -52,6 +53,10 @@ Page({
         this.setData({
           searching:false
         })
+        wx.hideNavigationBarLoading();
+        if(fresh){
+          wx.stopPullDownRefresh();
+        }
       }
     })
   },
@@ -65,6 +70,10 @@ Page({
         this.data.users.splice(user.index, 1);
         this.setData({
           users: this.data.users
+        });
+        var i = 0;
+        res.data.users.forEach(value => {
+          value['index'] = i++;
         });
       }
     })
@@ -150,7 +159,7 @@ Page({
   },
   search:function(){
     this.init();
-    this.findUsers(this.data.nickname);
+    this.findUsers(this.data.nickname,false);
     this.hideInput();
   },
   /**
@@ -160,7 +169,7 @@ Page({
     this.setData({
       currentUser: app.globalData.topUser
     })
-    this.findUsers(this.data.nickname);
+    this.findUsers(this.data.nickname,false);
   },
 
   /**
@@ -201,10 +210,13 @@ Page({
         icon:'warm',
         duration:1500
       })
+      wx.stopPullDownRefresh();
       return
     }
+    //wx.showNavigationBarLoading() //在标题栏中显示加载
     this.init();
-    this.findUsers();
+    this.findUsers(this.data.nickname,true);
+
   },
 
   /**
@@ -215,7 +227,7 @@ Page({
       return
     }
     if (this.data.pageSize === app.globalData.pageSize) {
-      this.findUsers()
+      this.findUsers(this.data.nickname,false)
     } else {
       console.log("have no users!")
     }

@@ -571,7 +571,7 @@ icon {
 
 .weui-article__p {
   font-weight: 300;
-  font-size: 12px;
+  font-size: 14px;
   margin: 0 0.8em 0.8em 0.8em;
 }
 
@@ -953,8 +953,8 @@ icon {
 }
 
 .weui-media-box__title {
-  font-weight: 350;
-  font-size: 14px;
+  font-weight: 400;
+  font-size: 16px;
   width: auto;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -965,8 +965,8 @@ icon {
 }
 
 .weui-media-box__desc {
-  color: #999;
-  font-size: 13px;
+  color: #888;
+  font-size: 14px;
   line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -979,7 +979,7 @@ icon {
   margin-top: 10px;
   padding-bottom: 5px;
   font-size: 13px;
-  color: #bebebe;
+  color: #999;
   line-height: 1em;
   list-style: none;
   overflow: hidden;

@@ -118,15 +118,15 @@ Page({
       },
       success: res => {
         console.log(res.data);
-        var i = 0;
         res.data.forEach(function (value) {
           value['formatDate'] = value.createDate.split(' ')[0];
-          value['index'] = i++;
         });
         if (this.data.activeIndex == 0) {
           this.setData({
             discusses0: this.data.discusses0.concat(res.data)
           })
+          var i = 0;
+          this.indexArray(this.data.discusses0);
           this.data.nextPage0 = this.data.nextPage0 + 1;
           this.data.currentPageSize0 = this.data.discusses0.length;
           this.data.init0 = true;
@@ -135,6 +135,7 @@ Page({
           this.setData({
             discusses1: this.data.discusses1.concat(res.data)
           })
+          this.indexArray(this.data.discusses1);
           this.data.nextPage1 = this.data.nextPage1 + 1;
           this.data.currentPageSize1 = this.data.discusses1.length;
           this.data.init1 = true;
@@ -162,11 +163,13 @@ Page({
           this.setData({
             discusses0: this.data.discusses0
           });
+          this.indexArray(this.data.discusses0);
         } else {
           this.data.discusses1.splice(d.index, 1)
           this.setData({
             discusses1: this.data.discusses1
           });
+          this.indexArray(this.data.discusses1);
         }
 
         wx.showToast({
@@ -177,7 +180,12 @@ Page({
       }
     })
   },
-
+  indexArray:function(arr){
+    var i = 0;
+    arr.forEach(function (value) {
+      value['index'] = i++;
+    });
+  },
   detailNews:function(e){
     console.info(e.target);
     wx.navigateTo({
@@ -240,7 +248,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.stopPullDownRefresh();
   },
 
   /**

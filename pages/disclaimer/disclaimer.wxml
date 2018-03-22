@@ -1,2 +1,12 @@
-<!--pages/disclaimer/disclaimer.wxml-->
-<text>pages/disclaimer/disclaimer.wxml</text>
+<view class='page'>
+  <view class="page__hd">
+    <view class="weui-article__h1" style='text-align: center;'>《相关条款》</view>
+    <text class="weui-article__p">一、发布人不得发布任何违法违规，带有攻击性色彩或侵犯他人隐私的信息；
+二、任何透过I价值小程序的网页内链接及得到之资讯、产品及服务，I价值及公司不负任何法律责任；
+三、I价值有包含第三者张贴之内容，该等内容并不反映I价值之意见及观点；
+四、I价值所发布的任何消息和评论仅供读者参考，如发现内容侵权，将根据相关法律法规的规定，删除相应内容。侵权责任由发布者自行承担，如由此造成损失，发布者应承担赔偿责任；
+五、I价值对用户发布的任何信息拥有删除的权利；
+六、如有疑问请联系010-57034588  hanguoji@taopu1.com 。</text>
+    <text class="weui-article__p"></text>
+  </view>
+</view>

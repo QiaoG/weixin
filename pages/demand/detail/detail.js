@@ -1,5 +1,6 @@
 // pages/demand/detail/detail.js
 const app = getApp()
+const util = require('../../../utils/util');
 const demandUrl = app.globalData.serverUrl + "/api/demands"
 const addDisUrl = app.globalData.serverUrl + "/api/discuss"
 const disUrl = app.globalData.serverUrl + "/discusses/bySource"
@@ -10,6 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    login: false,
     demand: null,
     demandId: null,
     discussNextPage: 0,
@@ -58,6 +60,19 @@ Page({
     })
   },
   addDiscuss: function(e){
+    if (!this.data.login) {
+      wx.navigateTo({
+        url: '../../my/register/register',
+      })
+    }
+    var c = e.detail.value.content;
+    if (c == null || util.myTrim(c).length < 6) {
+      wx.showToast({
+        title: '评论至少6个字符！',
+        duration: 1500
+      })
+      return;
+    }
     var dis = {};
     dis['discussSource']=this.data.demandId;
     dis['sourceType'] = 1;
@@ -91,6 +106,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (app.globalData.topUser) {
+      this.setData({
+        login: true
+      })
+    }
     this.getDemand(options.id)
   },
 

@@ -1,5 +1,6 @@
 // pages/news/detail/detail.js
 const app = getApp()
+const util = require('../../../utils/util');
 const newsUrl = app.globalData.serverUrl + "/api/news"
 const disUrl = app.globalData.serverUrl +"/discusses/bySource"
 const addDisUrl = app.globalData.serverUrl + "/api/discuss"
@@ -55,6 +56,14 @@ Page({
         url: '../../my/register/register',
       })
     }
+    var c = e.detail.value.content;
+    if (c == null || util.myTrim(c).length < 6) {
+      wx.showToast({
+        title: '评论至少6个字符！',
+        duration: 1500
+      })
+      return;
+    }
     var dis = {};
     dis['discussSource'] = this.data.newsId;
     dis['sourceType'] = 0;
@@ -70,7 +79,6 @@ Page({
       header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       data: dis,
       success: res => {
-        console.info(res);
         wx.showToast({
           title: '评论提交成功',
           icon: 'success',

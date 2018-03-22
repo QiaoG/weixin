@@ -18,7 +18,17 @@ Page({
     wx.request({
       url: urlNum,
       success: res => {
-        console.info(res.data['newsCount']);
+        var total = res.data.newsCount+res.data.demandCount+res.data.discussCount;
+        console.info('total verify count:'+total);
+        if(total > 0){
+          wx.showTabBarRedDot({
+            index: 2
+          });
+        }else{
+          wx.hideTabBarRedDot({
+            index: 2
+          });
+        }
         this.setData({
           newsNum: res.data['newsCount'],
           demandNum: res.data['demandCount'],

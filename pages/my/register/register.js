@@ -16,7 +16,7 @@ Page({
     iv: null,
     encData: null,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    index:6,
+    index:7,
     enterpriseType: [
       { id: 0, name: '挂牌企业' },
       { id: 1, name: '投资机构' },
@@ -24,7 +24,8 @@ Page({
       { id: 3, name: '证劵公司' },
       { id: 4, name: '分析师' },
       { id: 5, name: '其他机构' },
-      { id: 6, name: '个人用户' }
+      { id: 6, name: '个人用户' },
+      { id: 6, name: '请选择' }
     ],
   },
   bindTypeChange: function (e) {
@@ -122,6 +123,11 @@ Page({
                   showCancel: false
                 })
               }else{
+                if (res.data.data.verifyCount>0){
+                  wx.showTabBarRedDot({
+                    index:2
+                  });
+                }
                 app.globalData.topUser = res.data.data;
                 app.globalData.manager = res.data.data.role.split('|')[0] < 2;
                 this.setData({
@@ -144,6 +150,14 @@ Page({
   },
 
   add: function (e) {
+    if (this.data.index == 7) {
+      wx.showModal({
+        title: '错误',
+        content: '请选择用户类型！',
+        showCancel: false
+      })
+      return;
+    }
     if (this.data.index == 6) {
       console.info('个人用户');
       var pages = getCurrentPages();

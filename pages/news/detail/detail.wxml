@@ -1,7 +1,7 @@
 <!--pages/news/detail/detail.wxml-->
 <view class='page'>
   <view class="page__hd">
-    <view class="weui-article__h2">{{news.title}}</view>
+    <view class="weui-article__h1">{{news.title}}</view>
     <text class="weui-article__p">{{news.content}}</text>
   </view>
   <view class="weui-panel__bd" wx:for="{{discusses}}" wx:key="id">

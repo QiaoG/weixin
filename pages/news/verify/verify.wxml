@@ -6,7 +6,7 @@
   </view>
   <view style='height: 3em;'></view>
   <view class="section-input" style='height:4em;'>
-    <button type='primary' bindtap='verify' style='flex:1;background:#e14834;'>审核通过</button>
+    <button type='primary' style='flex:1;background:#e14834;' bindtap='manage'>审核</button>
     <!-- <button size='mini' type='warn' bindtap='verifyNo' style='flex:2;'>审核未通过</button> -->
   </view>
 </view>

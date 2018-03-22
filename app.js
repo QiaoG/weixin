@@ -31,6 +31,17 @@ App({
         if (res.data.data) {
           this.globalData.topUser = res.data.data;
           this.globalData.manager = res.data.data.role.split('|')[0] < 2;
+          if (res.data.data.verifyCount > 0){
+            wx.showTabBarRedDot({
+              index: 2,
+              success:res => {
+                console.info(res);
+              },
+              fail:res => {
+                console.info(res)
+              }
+            });
+          }
           if (this.userInfoReadyCallback) {
             this.userInfoReadyCallback(res.data);
           }
@@ -99,9 +110,9 @@ App({
     sessionCode: null,
     userInfo: null,
     topUser: null,
-    serverUrl: 'http://localhost:8088',
+    serverUrl: 'https://wechat.taopu1.net/marketinfo',//'http://localhost:8088',//
     manager: false,
     register: false,
-    pageSize: 5
+    pageSize: 10
   }
 })

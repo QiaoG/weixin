@@ -8,18 +8,27 @@ Page({
    * 页面的初始数据
    */
   data: {
-    login:false,
+    login: false,
     inputShowed: false,
-    searchTitle:'',
-    demands:[],
-    nextPage:0,
-    currentPageSize:0,
-    loading:false
+    searchTitle: '',
+    demands: [],
+    nextPage: 0,
+    currentPageSize: 0,
+    loading: false,
+    bottom: false,
+    lock:false
   },
-  init:function(){
-    this.data.demands.splice(0,this.data.demands.length);
+  init: function () {
+    this.data.demands.splice(0, this.data.demands.length);
     this.data.nextPage = 0;
     this.currentPageSize = 0;
+    this.data.bottom = false;
+  },
+  indexArray: function (arr) {
+    var i = 0;
+    arr.forEach(function (value) {
+      value['index'] = i++;
+    });
   },
   showInput: function () {
     this.setData({
@@ -49,25 +58,90 @@ Page({
   search: function () {
     this.hideInput();
     this.init();
-    this.getDemands();
+    this.getDemands(false);
   },
-  getDemands:function(){
+  getDemands: function (fresh) {
+    wx.showNavigationBarLoading();
     wx.request({
       url: url,
-      data:{
+      data: {
         title: this.data.searchTitle,
         verify: 1,
         page: this.data.nextPage,
         size: pageSize
       },
       success: res => {
-        console.log(res.data)
+        this.data.demands = this.data.demands.concat(res.data);
+        this.indexArray(this.data.demands);
         this.setData({
-          demands: this.data.demands.concat(res.data)
+          demands: this.data.demands
         })
+        
         this.data.nextPage = this.data.nextPage + 1
         this.data.currentPageSize = res.data.length;
+        if (this.data.currentPageSize < app.globalData.pageSize) {
+          this.setData({
+            bottom: true
+          })
+        }
         console.log('next page:' + this.data.nextPage + ' size:' + this.data.currentPageSize)
+      },
+      complete: () => {
+        wx.hideNavigationBarLoading();
+        if (fresh) {
+          wx.stopPullDownRefresh();
+        }
+      }
+    })
+  },
+  manage: function (e) {
+    if (!this.data.login || !app.globalData.manager) {
+      return;
+    }
+    this.setData({
+      lock: true
+    });
+    var that = this;
+    var id = e.currentTarget.dataset.id
+    var index = e.currentTarget.dataset.index
+    wx.showActionSheet({
+      itemList: ['删除需求'],
+      success: function (res) {
+        if (res.cancel) {
+          this.setData({
+            lock: false
+          });
+          return;
+        }
+        if (res.tapIndex == 0) {
+          wx.showModal({
+            title: '提示',
+            content: '确认删除需求吗？',
+            success: function (res) {
+              that.setData({
+                lock:false
+              })
+              if (res.confirm) {
+                that.deleteDemand(id, index);
+              }
+            }
+          })
+        }
+      }
+    });
+  },
+  deleteDemand: function (id, index) {
+    wx.request({
+      url: app.globalData.serverUrl + '/api/demands/' + id,
+      method: 'DELETE',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      success: res => {
+        console.info(res);
+        this.data.demands.splice(index, 1);
+        this.indexArray(this.data.demands);
+        this.setData({
+          demands: this.data.demands
+        });
       }
     })
   },
@@ -91,11 +165,14 @@ Page({
         })
       }
     }
-    this.getDemands();
+    wx.showNavigationBarLoading();
+    this.getDemands(true);
   },
 
   detail: function (e) {
-    console.log(e)
+    if(this.data.lock){
+      return;
+    }
     var id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: 'detail/detail?id=' + id,
@@ -111,7 +188,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    
+
   },
 
   /**
@@ -122,21 +199,21 @@ Page({
       this.setData({
         login: true
       })
-    } 
+    }
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-    
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    
+
   },
 
   /**
@@ -144,7 +221,8 @@ Page({
    */
   onPullDownRefresh: function () {
     this.init();
-    this.getDemands();
+    this.getDemands(true);
+
   },
 
   /**
@@ -158,7 +236,7 @@ Page({
       this.setData({
         loading: true
       })
-      this.getDemands()
+      this.getDemands(false)
     } else {
       console.log("have no demands!");
     }
@@ -168,6 +246,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    
+
   }
 })

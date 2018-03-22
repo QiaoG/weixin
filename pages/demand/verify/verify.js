@@ -41,6 +41,21 @@ Page({
       }
     })
   },
+  verifyNo: function () {
+    wx.request({
+      url: demandUrl + '/' + this.data.demandId,
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      method: 'DELETE',
+      success: res => {
+        console.info(res);
+        wx.showToast({
+          title: '需求已经删除！',
+          icon: 'success',
+          duration: 1500
+        })
+      }
+    })
+  },
   getDemand: function (id) {
     wx.request({
       url: demandUrl + '/' + id,
@@ -52,7 +67,52 @@ Page({
       }
     })
   },
-
+  manage: function (e) {
+    var that = this;
+    wx.showActionSheet({
+      itemList: ['审核通过', '审核不通过', '删除'],
+      success: function (res) {
+        if (res.cancel) {
+          return;
+        }
+        if (res.tapIndex == 0) {
+          wx.showModal({
+            title: '提示',
+            content: '确认审核通过吗？',
+            success: function (res) {
+              if (res.confirm) {
+                that.verify();
+              }
+            }
+          })
+        }
+        if (res.tapIndex == 1) {
+          wx.showModal({
+            title: '提示',
+            content: '审核不通过将删除，确认吗？',
+            success: function (res) {
+              console.info(this);
+              if (res.confirm) {
+                that.verifyNo();
+              }
+            }
+          })
+        }
+        if (res.tapIndex == 2) {
+          wx.showModal({
+            title: '提示',
+            content: '确认删除需求吗？',
+            success: function (res) {
+              console.info(this);
+              if (res.confirm) {
+                that.verifyNo();
+              }
+            }
+          })
+        }
+      },
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */

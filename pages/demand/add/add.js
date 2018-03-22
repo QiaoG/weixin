@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    isAgree: false,
     title: null,
     content: null,
     adding: false,
@@ -17,9 +18,10 @@ Page({
       { id: 1, name:'约调研'},
       { id: 2, name:'约投资'},
       { id: 3, name:'股权抵押'},
-      { id: 4, name:'其他'}
+      { id: 4, name:'其他'},
+      { id: 5, name: '请选择' },
     ],
-    index:0
+    index:5
   },
   bindTypeChange:function(e){
     this.setData({
@@ -37,7 +39,11 @@ Page({
       content: e.detail.value
     });
   },
-
+  bindAgreeChange: function (e) {
+    this.setData({
+      isAgree: e.detail.value.length
+    });
+  },
   add: function (e) {
     var form = e.detail.value;
     if (!this.check(form)) {
@@ -51,7 +57,7 @@ Page({
       adding: true
     });
     wx.showToast({
-      title: '新建需求',
+      title: '发布需求',
       icon: 'loading'
     })
     wx.request({
@@ -72,11 +78,11 @@ Page({
       },
       success: res => {
         console.info(res);
-        // wx.showToast({
-        //   title: '添加完成',
-        //   icon: 'success',
-        //   duration: 2000
-        // })
+        wx.showModal({
+          content: '提交完成' + (app.globalData.manager?'':',需审核通过后发布。'),
+          showCancel: false
+    
+        })
         var pages = getCurrentPages();
         var currPage = pages[pages.length - 1];   //当前页面
         var prevPage = pages[pages.length - 2];
@@ -97,9 +103,26 @@ Page({
 
   check: function (form) {
     if (form.title == null || util.myTrim(form.title).length==0 || form.content == null || util.myTrim(form.content).length==0) {
-      wx.showToast({
-        title: '标题和内容不能为空！',
-        duration: 2000
+      wx.showModal({
+        title: '错误',
+        content: '标题和内容不能为空！',
+        showCancel: false
+      })
+      return false;
+    }
+    if (Date.parse(this.data.date) <= Date.parse(util.formatDate(Date.now()))){
+      wx.showModal({
+        title: '错误',
+        content:'失效日期必须大于今天！',
+        showCancel: false
+      })
+      return false;
+    }
+    if(this.data.index == 5){
+      wx.showModal({
+        title: '错误',
+        content: '请选择需求类型！',
+        showCancel: false
       })
       return false;
     }
@@ -117,7 +140,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      date:'2018-02-03'
+      date:util.formatDate(Date.now())
     });
   },
 
