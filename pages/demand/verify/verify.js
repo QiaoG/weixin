@@ -8,7 +8,7 @@ Page({
    */
   data: {
     demand: null,
-    demandId: null,
+    demandId: null
   },
 
   verify: function () {
@@ -31,7 +31,7 @@ Page({
         var prevPage = pages[pages.length - 2];
         var pprePage = pages[pages.length - 3];
         pprePage.refreshCount();
-        prevPage.search();
+        prevPage.removeItem();
         wx.navigateBack({
           delta: 1
         })
@@ -53,6 +53,15 @@ Page({
           icon: 'success',
           duration: 1500
         })
+        var pages = getCurrentPages();
+        var currPage = pages[pages.length - 1];   //当前页面
+        var prevPage = pages[pages.length - 2];
+        var pprePage = pages[pages.length - 3];
+        pprePage.refreshCount();
+        prevPage.removeItem();
+        wx.navigateBack({
+          delta: 1
+        })
       }
     })
   },
@@ -70,7 +79,7 @@ Page({
   manage: function (e) {
     var that = this;
     wx.showActionSheet({
-      itemList: ['审核通过', '审核不通过', '删除'],
+      itemList: ['审核通过', '审核不通过'],
       success: function (res) {
         if (res.cancel) {
           return;
@@ -90,18 +99,6 @@ Page({
           wx.showModal({
             title: '提示',
             content: '审核不通过将删除，确认吗？',
-            success: function (res) {
-              console.info(this);
-              if (res.confirm) {
-                that.verifyNo();
-              }
-            }
-          })
-        }
-        if (res.tapIndex == 2) {
-          wx.showModal({
-            title: '提示',
-            content: '确认删除需求吗？',
             success: function (res) {
               console.info(this);
               if (res.confirm) {

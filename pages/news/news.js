@@ -20,13 +20,10 @@ Page({
     return s.format("yyyy-MM-dd");
   },
   init:function(){
-    this.data.nextPage = 0
-    this.data.pageSize = 0
-    this.data.newses.splice(0,this.data.newses.length)
     this.setData({
       nextPage:0,
       pageSize:0,
-      newses:this.data.newses
+      newses:[]
     })
   },
   showInput: function () {

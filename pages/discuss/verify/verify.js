@@ -101,9 +101,15 @@ Page({
     this.init(this.data.activeIndex);
     this.findDiscusses();
   },
-
-  findDiscusses:function(){
+  indexArray: function (arr) {
+    var i = 0;
+    arr.forEach(function (value) {
+      value['index'] = i++;
+    });
+  },
+  findDiscusses:function(fresh=false){
     this.data['loading' + this.data.activeIndex]=true;
+    wx.showNavigationBarLoading();
     wx.request({
       url: url ,
       data:{
@@ -115,31 +121,37 @@ Page({
       },
       success: res => {
         console.log(res.data);
-        var i = 0;
         res.data.forEach(function (value) {
           value['formatDate'] = value.createDate.split(' ')[0];
-          value['index'] = i++;
         });
         if (this.data.activeIndex == 0){
+          this.data.discusses0 = this.data.discusses0.concat(res.data);
+          this.indexArray(this.data.discusses0);
           this.setData({
-            discusses0: this.data.discusses0.concat(res.data)
+            discusses0: this.data.discusses0
           })
           this.data.nextPage0 = this.data.nextPage0 + 1;
-          this.data.currentPageSize0 = this.data.discusses0.length;
+          this.data.currentPageSize0 = res.data.length;
           this.data.init0 = true;
           console.log(this.data.nextPage0 + ',' + this.data.currentPageSize0);
         }else{
+          this.data.discusses1 = this.data.discusses1.concat(res.data);
+          this.indexArray(this.data.discusses1);
           this.setData({
-            discusses1: this.data.discusses1.concat(res.data)
+            discusses1: this.data.discusses1
           })
           this.data.nextPage1 = this.data.nextPage1 + 1;
-          this.data.currentPageSize1 = this.data.discusses1.length;
+          this.data.currentPageSize1 = res.data.length;
           this.data.init1 = true;
           console.log(this.data.nextPage1 + ',' + this.data.currentPageSize1)
         }
       },
       complete:() =>{
         this.data['loading' + this.data.activeIndex] = false;
+        wx.hideNavigationBarLoading();
+        if(fresh){
+          wx.stopPullDownRefresh();
+        }
       }
     })
   },
@@ -227,7 +239,7 @@ Page({
    */
   onPullDownRefresh: function () {
     this.init();
-    this.findDiscusses();
+    this.findDiscusses(true);
   },
 
   /**

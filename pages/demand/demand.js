@@ -19,10 +19,12 @@ Page({
     lock:false
   },
   init: function () {
-    this.data.demands.splice(0, this.data.demands.length);
-    this.data.nextPage = 0;
-    this.currentPageSize = 0;
-    this.data.bottom = false;
+    this.setData({
+      demands:[],
+      nextPage:0,
+      currentPageSize:0,
+      bottom:false
+    })
   },
   indexArray: function (arr) {
     var i = 0;

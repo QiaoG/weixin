@@ -1,7 +1,7 @@
 <!--pages/news/verify/verify.wxml-->
 <view class='page'>
   <view class="page__hd">
-    <view class="weui-article__h2">{{news.title}}</view>
+    <view class="weui-article__h1">{{news.title}}</view>
     <text class="weui-article__p">{{news.content}}</text>
   </view>
   <view style='height: 3em;'></view>

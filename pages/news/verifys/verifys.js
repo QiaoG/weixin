@@ -6,17 +6,29 @@ Page({
    * 页面的初始数据
    */
   data: {
-    inputShowed:false,
-    searchTitle:'',
+    inputShowed: false,
+    searchTitle: '',
     currentPage: 0,
     currentPageSize: 0,
     newses: [],
-    loading: false
+    loading: false,
+    bottom: false,
+    selectIndex: -1
   },
   init: function () {
-    this.data.currentPage = 0
-    this.data.currentPageSize = 0
-    this.data.newses.splice(0, this.data.newses.length)
+    this.setData({
+      currentPage: 0,
+      currentPageSize: 0,
+      newses: [],
+      bottom: false,
+      selectIndex: -1
+    })
+  },
+  indexArray: function (arr) {
+    var i = 0;
+    arr.forEach(function (value) {
+      value['index'] = i++;
+    });
   },
   showInput: function () {
     this.setData({
@@ -45,9 +57,10 @@ Page({
     this.init();
     this.getNewses();
   },
-  getNewses: function () {
+  getNewses: function (fresh = false) {
     var ns = this.data.newses;
     console.log('page:' + this.data.currentPage);
+    wx.showNavigationBarLoading();
     wx.request({
       url: app.globalData.serverUrl + '/newses',
       data: {
@@ -57,28 +70,50 @@ Page({
         size: app.globalData.pageSize
       },
       success: res => {
-        console.log(ns.concat(res.data))
-
+        this.data.newses = this.data.newses.concat(res.data);
+        this.indexArray(this.data.newses);
         this.setData({
-          newses: this.data.newses.concat(res.data)
+          newses: this.data.newses
         })
-        this.data.currentPage = this.data.currentPage+1;
+        if (this.data.currentPageSize < app.globalData.pageSize) {
+          this.setData({
+            bottom: true
+          })
+        }
+        this.data.currentPage = this.data.currentPage + 1;
         this.data.currentPageSize = res.data.length;
-    
+
       },
       complete: () => {
         // console.info("请求结束...");
         this.setData({
           loading: false
         })
+        wx.hideNavigationBarLoading();
+        if (fresh) {
+          wx.stopPullDownRefresh();
+        }
       }
     })
   },
   detail: function (e) {
-    var id = e.currentTarget.dataset.id
+    var id = e.currentTarget.dataset.id;
+    this.setData({
+      selectIndex: e.currentTarget.dataset.index
+    })
+    console.info('select index:' + this.data.selectIndex);
     wx.navigateTo({
       url: '../verify/verify?id=' + id,
     })
+  },
+  removeItem: function () {
+    if (this.data.selectIndex > -1) {
+      this.data.newses.splice(this.data.selectIndex, 1);
+      this.indexArray(this.data.newses);
+      this.setData({
+        newses: this.data.newses
+      });
+    }
   },
   /**
    * 生命周期函数--监听页面加载
@@ -91,28 +126,28 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
@@ -120,12 +155,10 @@ Page({
    */
   onPullDownRefresh: function () {
     if (this.data.loading) {
-      return
+      return;
     }
-    wx.stopPullDownRefresh()
-    console.info("刷新....")
-    this.init()
-    this.getNewses()
+    this.init();
+    this.getNewses(true);
   },
 
   /**
@@ -149,6 +182,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

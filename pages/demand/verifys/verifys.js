@@ -13,12 +13,24 @@ Page({
     demands: [],
     nextPage: 0,
     currentPageSize: 0,
-    loading: false
+    loading: false,
+    bottom: false,
+    selectIndex: -1
   },
   init: function () {
-    this.data.demands.splice(0, this.data.demands.length);
-    this.data.nextPage = 0;
-    this.currentPageSize = 0;
+    this.setData({
+      demands: [],
+      nextPage: 0,
+      currentPageSize: 0,
+      bottom: false,
+      selectIndex: -1
+    })
+  },
+  indexArray: function (arr) {
+    var i = 0;
+    arr.forEach(function (value) {
+      value['index'] = i++;
+    });
   },
   showInput: function () {
     this.setData({
@@ -50,30 +62,55 @@ Page({
     this.init();
     this.getDemands();
   },
-  getDemands: function () {
+  getDemands: function (fresh = false) {
+    wx.showNavigationBarLoading();
     wx.request({
       url: url,
-      data:{
-        title:this.data.searchTitle,
-        verify:0,
+      data: {
+        title: this.data.searchTitle,
+        verify: 0,
         page: this.data.nextPage,
-        size:pageSize
+        size: pageSize
       },
       success: res => {
         console.log(res.data)
+        this.data.demands = this.data.demands.concat(res.data);
+        this.indexArray(this.data.demands);
         this.setData({
-          demands: this.data.demands.concat(res.data)
+          demands: this.data.demands
         })
+        if (this.data.currentPageSize < app.globalData.pageSize) {
+          this.setData({
+            bottom: true
+          })
+        }
         this.data.nextPage = this.data.nextPage + 1
         this.data.currentPageSize = res.data.length;
         console.log('next page:' + this.data.nextPage + ' size:' + this.data.currentPageSize)
+      },
+      complete: () => {
+        wx.hideNavigationBarLoading();
+        if (fresh) {
+          wx.stopPullDownRefresh();
+        }
       }
     })
   },
-
+  removeItem: function () {
+    if (this.data.selectIndex > -1) {
+      this.data.demands.splice(this.data.selectIndex, 1);
+      this.indexArray(this.data.demands);
+      this.setData({
+        demands: this.data.demands
+      });
+    }
+  },
   detail: function (e) {
     console.log(e)
     var id = e.currentTarget.dataset.id
+    this.setData({
+      selectIndex: e.currentTarget.dataset.index
+    })
     wx.navigateTo({
       url: '../verify/verify?id=' + id,
     })
@@ -118,7 +155,7 @@ Page({
    */
   onPullDownRefresh: function () {
     this.init();
-    this.getDemands();
+    this.getDemands(true);
   },
 
   /**

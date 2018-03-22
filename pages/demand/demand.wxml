@@ -29,6 +29,6 @@
     <view class="weui-search-bar__cancel-btn" style='color:#909090;font-size:15px;' hidden="{{!inputShowed}}" bindtap="search">查询</view>
   </view>
   <view class="section-input " style='height:4em'>
-    <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' bindtap='add'>添加需求</button>
+    <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' bindtap='add'>发布需求</button>
   </view>
 </view>
