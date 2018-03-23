@@ -120,7 +120,6 @@ Page({
         size:pageSize
       },
       success: res => {
-        console.log(res.data);
         res.data.forEach(function (value) {
           value['formatDate'] = value.createDate.split(' ')[0];
         });
@@ -156,39 +155,124 @@ Page({
     })
   },
 
-  verify:function(e){
-    console.info(e);
-    var u = e.target.dataset.id._links.self.href;
-    var d = e.target.dataset.id;
-    d['status'] = 1;
+  verify:function(dis){
+    var u = app.globalData.serverUrl + '/api/discuss/'+dis.id
+    dis['status'] = 1;
     wx.request({
       url: u,
       method: 'PUT',
       header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
-      data: d,
+      data: dis,
       success: res => {
         console.info(res);
         if (this.data.activeIndex == 0) {
-          this.data.discusses0.splice(d.index, 1);
+          this.data.discusses0.splice(dis.index, 1);
+          this.indexArray(this.data.discusses0);
           this.setData({
             discusses0: this.data.discusses0
           });
         }else{
-          this.data.discusses1.splice(d.index, 1)
+          this.data.discusses1.splice(dis.index, 1)
+          this.indexArray(this.data.discusses1);
           this.setData({
             discusses1: this.data.discusses1
           });
         }
-        
+        var pages = getCurrentPages();
+        var currPage = pages[pages.length - 1];   //当前页面
+        var prePage = pages[pages.length - 2];
+        prePage.refreshCount();
+
         wx.showToast({
           title: '审核完成',
           icon: 'success',
-          duration: 2000
+          duration: 1500
         })
       }
     })
   },
+  verifyNo: function (dis) {
+    wx.request({
+      url: app.globalData.serverUrl + '/api/discuss/' + dis.id,
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      method: 'DELETE',
+      success: res => {
+        console.info(res);
+        if (this.data.activeIndex == 0) {
+          this.data.discusses0.splice(dis.index, 1);
+          this.indexArray(this.data.discusses0);
+          this.setData({
+            discusses0: this.data.discusses0
+          });
+        } else {
+          this.data.discusses1.splice(dis.index, 1)
+          this.indexArray(this.data.discusses1);
+          this.setData({
+            discusses1: this.data.discusses1
+          });
+        }
+        var pages = getCurrentPages();
+        var currPage = pages[pages.length - 1];   //当前页面
+        var prePage = pages[pages.length - 2];
+        prePage.refreshCount();
 
+        wx.showToast({
+          title: '评论已经删除！',
+          icon: 'success',
+          duration: 1500
+        })
+      }
+    })
+  },
+  manage: function (e) {
+    var that = this;
+    var dis = e.target.dataset.id;
+    wx.showActionSheet({
+      itemList: ['审核通过', '审核不通过'],
+      success: function (res) {
+        if (res.cancel) {
+          return;
+        }
+        if (res.tapIndex == 0) {
+          wx.showModal({
+            title: '提示',
+            content: '确认审核通过吗？',
+            success: function (res) {
+              if (res.confirm) {
+                that.verify(dis);
+              }
+            }
+          })
+        }
+        if (res.tapIndex == 1) {
+          wx.showModal({
+            title: '提示',
+            content: '审核不通过将删除，确认吗？',
+            success: function (res) {
+              console.info(this);
+              if (res.confirm) {
+                that.verifyNo(dis);
+              }
+            }
+          })
+        }
+      },
+    });
+  },
+  deleteDiscuss: function (id, index) {
+    wx.request({
+      url: app.globalData.serverUrl + '/api/news/' + id,
+      method: 'DELETE',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      success: res => {
+        this.data.newses.splice(index, 1);
+        this.indexArray(this.data.newses);
+        this.setData({
+          newses: this.data.newses
+        });
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

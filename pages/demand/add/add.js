@@ -45,6 +45,7 @@ Page({
     });
   },
   add: function (e) {
+    console.info(e.detail);
     var form = e.detail.value;
     if (!this.check(form)) {
       console.info("有输为空");
@@ -74,7 +75,8 @@ Page({
         publisherId: app.globalData.topUser.id,
         verifyId:0,
         invalidDate:this.data.date+' 00:00:00',
-        publisherNickName: app.globalData.topUser.nickname
+        publisherNickName: app.globalData.topUser.nickname,
+        formId: e.detail.formId
       },
       success: res => {
         console.info(res);

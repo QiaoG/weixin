@@ -2,6 +2,11 @@
 <view class='page'>
   <view class="page__hd">
     <view class="weui-article__h1">{{news.title}}</view>
+    <view class="weui-media-box__info ">
+      <view class="weui-media-box__info__meta ">{{news.authorNickName}}</view>
+      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra ">{{news.newsSource}}</view>
+      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra ">{{news.createDate}}</view>
+    </view>
     <text class="weui-article__p">{{news.content}}</text>
   </view>
   <view class="weui-panel__bd" wx:for="{{discusses}}" wx:key="id">

@@ -110,7 +110,7 @@ App({
     sessionCode: null,
     userInfo: null,
     topUser: null,
-    serverUrl: 'https://wechat.taopu1.net/marketinfo',//'http://localhost:8088',//
+    serverUrl: 'http://localhost:8088',//'https://wechat.taopu1.net/marketinfo',//
     manager: false,
     register: false,
     pageSize: 10

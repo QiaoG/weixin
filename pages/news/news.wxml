@@ -13,7 +13,7 @@
   </view>
   <view wx:if='{{bottom}}' style='font-size:13px;color:#bebebe;margin:auto;height:3.0em;text-align: center;'>没有了</view>
   <view style=' height:3.2em; '></view>
-  <view class="weui-search-bar" style='position: fixed;top:0px;height:2.2em;width: 100%;text-align: center;'>
+  <view class="weui-search-bar" style='position: fixed;top:0px;height:2.5em;width: 100%;text-align: center;'>
     <view class="weui-search-bar__form">
       <view class="weui-search-bar__box">
         <icon class="weui-icon-search_in-box" type="search" size="14"></icon>

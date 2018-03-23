@@ -12,8 +12,10 @@ Page({
   },
 
   verify: function () {
+    wx.showNavigationBarLoading();
     this.data.demand['status'] = 1;
     this.data.demand['verifyId'] = app.globalData.topUser.id;
+    this.data.demand['action'] = 'verify';
     wx.request({
       url: demandUrl + '/' + this.data.demandId,
       method: 'PUT',
@@ -37,7 +39,8 @@ Page({
         })
       },
       complete:() =>{
-        console.info(this.data.demand);
+        // console.info(this.data.demand);
+        wx.hideNavigationBarLoading();
       }
     })
   },

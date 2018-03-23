@@ -82,6 +82,7 @@ Page({
 
   add: function (e) {
     var form = e.detail.value;
+    console.info(e.detail);
     if (!this.check(e.detail.value)){
       console.info("输为不合乎要求");
       return;
@@ -110,7 +111,8 @@ Page({
         publisherId:0,
         status: app.globalData.manager?1:0,
         authorId: app.globalData.topUser.id,
-        authorNickName: app.globalData.topUser.nickname
+        authorNickName: app.globalData.topUser.nickname,
+        formId: e.detail.formId
       },
       success:res => {
         console.info(res);

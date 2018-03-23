@@ -12,19 +12,21 @@ Page({
     newsNum: 0,
     demandNum: 0,
     discussNum: 0,
-    manager: false
+    manager: false,
+    total:0
   },
-  refreshCount: function () {
+  refreshCount: function (fresh=false) {
+    wx.showNavigationBarLoading();
     wx.request({
       url: urlNum,
       success: res => {
-        var total = res.data.newsCount+res.data.demandCount+res.data.discussCount;
-        console.info('total verify count:'+total);
-        if(total > 0){
+        this.data.total = res.data.newsCount+res.data.demandCount+res.data.discussCount;
+        console.info(res.data);
+        if (this.data.total > 0) {
           wx.showTabBarRedDot({
             index: 2
           });
-        }else{
+        } else {
           wx.hideTabBarRedDot({
             index: 2
           });
@@ -32,8 +34,14 @@ Page({
         this.setData({
           newsNum: res.data['newsCount'],
           demandNum: res.data['demandCount'],
-          discussNum: res.data.discussCount
+          discussNum: res.data['discussCount']
         });
+      },
+      complete:() => {
+        wx.hideNavigationBarLoading();
+        if(fresh){
+          wx.stopPullDownRefresh();
+        }
       }
     })
   },
@@ -113,6 +121,15 @@ Page({
         login:true
       });
     }
+    if (this.data.total > 0) {
+      wx.showTabBarRedDot({
+        index: 2
+      });
+    } else {
+      wx.hideTabBarRedDot({
+        index: 2
+      });
+    }
   },
 
   /**
@@ -133,7 +150,19 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    if (app.globalData.topUser) {
+      this.setData({
+        login: true
+      })
+      this.setData({
+        manager: app.globalData.topUser.role.split('|')[0] < 2
+      });
+      if (this.data.manager) {
+        this.refreshCount(true);
+      }
+    }else{
+      wx.stopPullDownRefresh();
+    }
   },
 
   /**

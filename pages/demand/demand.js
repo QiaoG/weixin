@@ -73,6 +73,9 @@ Page({
         size: pageSize
       },
       success: res => {
+        res.data.forEach(function (value) {
+          value['typed'] = value.type.split('|')[1];
+        });
         this.data.demands = this.data.demands.concat(res.data);
         this.indexArray(this.data.demands);
         this.setData({
@@ -109,12 +112,9 @@ Page({
     wx.showActionSheet({
       itemList: ['删除需求'],
       success: function (res) {
-        if (res.cancel) {
-          this.setData({
-            lock: false
-          });
-          return;
-        }
+        this.setData({
+          lock: false
+        });
         if (res.tapIndex == 0) {
           wx.showModal({
             title: '提示',

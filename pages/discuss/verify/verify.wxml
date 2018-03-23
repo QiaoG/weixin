@@ -32,8 +32,8 @@
           <view class="weui-panel__bd" wx:for="{{discusses0}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
             <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">
-                <view style='flex:1;flex-grow:5;color:#aeaeae;'>{{item.formatDate}}</view>
-                <view style='flex:2;flex-grow:1;padding-right:5px;color:#a0a000;' data-id='{{item}}' bindtap='verify'>审核通过</view>
+                <view style='flex:1;flex-grow:8;color:#aeaeae;'>{{item.formatDate}}</view>
+                 <view style='flex:2;flex-grow:1;padding-right:5px;color:#bb1010;' data-id='{{item}}' bindtap='manage'>审核</view> 
               </view>
               <text class="weui-article__p" style='font-size:14px;font-weight: 400;'>{{item.content}}</text>
               <view class="weui-media-box__desc" style='padding-top:8px'>{{item.sourceTitle}}</view>
@@ -61,8 +61,8 @@
           <view class="weui-panel__bd" wx:for="{{discusses1}}" wx:key="_links.self.href" style=' background:#F4F4F4;padding:1px'>
             <view class="weui-media-box weui-media-box_text" style=' background:#FFFFFF;padding:8px'>
               <view class="row-option">
-                <view class="weui-media-box__info__meta" style='flex:1;flex-grow:5;color:#aeaeae'>{{item.formatDate}}</view>
-                <view style='flex:2;flex-grow:1;color:#aeaeae' data-id='{{item}}' bindtap='verify'>审核通过</view>
+                <view class="weui-media-box__info__meta" style='flex:1;flex-grow:7;color:#aeaeae'>{{item.formatDate}}</view>
+                 <view style='flex:2;flex-grow:1;color:#bb1010' data-id='{{item}}' bindtap='manage'>审核</view> 
               </view>
               <text class="weui-article__p" style='font-size:14px;font-weight: 400;'>{{item.content}}</text>
               <view class="weui-media-box__desc" style='padding-top:8px'>{{item.sourceTitle}}</view>

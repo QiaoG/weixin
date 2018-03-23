@@ -3,9 +3,10 @@
   <view class="page__hd">
     <view class="weui-article__h1">{{demand.title}}</view>
     <view class="weui-media-box__info ">
-        <view class="weui-media-box__info__meta ">发布人</view>
-        <view class="weui-media-box__info__meta weui-media-box__info__meta_extra ">时间</view>
-      </view>
+      <view class="weui-media-box__info__meta ">{{demand.publisherNickName}}</view>
+      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra ">{{dtype}}</view>
+      <view class="weui-media-box__info__meta weui-media-box__info__meta_extra ">{{demand.publishDate}}</view>
+    </view>
     <text class="weui-article__p">{{demand.content}}</text>
   </view>
   <view class="weui-panel__bd" wx:for="{{discusses}}" wx:key="id">

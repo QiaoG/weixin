@@ -572,7 +572,7 @@ icon {
 .weui-article__p {
   font-weight: 300;
   font-size: 14px;
-  margin: 0 0.8em 0.8em 0.8em;
+  margin: 0 0.3em 0.3em 0;
 }
 
 .weui-msg {

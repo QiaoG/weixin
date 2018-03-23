@@ -127,11 +127,6 @@ Page({
       login: true
     })
   },
-  loginComplete: function () {
-    this.setData({
-      login: true
-    })
-  },
   manage:function(e){
     if (!this.data.login || !app.globalData.manager){
       return;
@@ -145,12 +140,9 @@ Page({
     wx.showActionSheet({
       itemList: ['删除热点'],
       success: function (res){
-        if (res.cancel) {
-          this.setData({
-            lock:false
-          })
-          return;
-        }
+        this.setData({
+          lock: false
+        })
         if (res.tapIndex == 0) {
           wx.showModal({
             title: '提示',

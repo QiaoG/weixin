@@ -25,7 +25,7 @@ Page({
       { id: 4, name: '分析师' },
       { id: 5, name: '其他机构' },
       { id: 6, name: '个人用户' },
-      { id: 6, name: '请选择' }
+      { id: 7, name: '请选择' }
     ],
   },
   bindTypeChange: function (e) {

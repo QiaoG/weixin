@@ -17,8 +17,16 @@ Page({
     searching:false,
     currentUser:null
   },
+  indexArray: function (arr) {
+    var i = 0;
+    arr.forEach(function (value) {
+      value['index'] = i++;
+    });
+  },
   init:function(){
-    this.data.users.splice(0,this.data.users.length);
+    this.setData({
+      users:[]
+    })
     this.data.nextPage = 0;
     this.data.pageSize = 0;
   },
@@ -37,14 +45,14 @@ Page({
       },
       success:res => {
         console.info(res.data);
-        var i = 0;
         res.data.forEach(value => {
           value['rolec'] = value.role.split('|')[0];
           value['rolen'] = value.role.split('|')[2];
-          value['index'] = i++;
         });
+        this.data.users = this.data.users.concat(res.data);
+        this.indexArray(this.data.users);
         this.setData({
-          users: this.data.users.concat(res.data)
+          users: this.data.users
         });
         this.data.nextPage = this.data.nextPage + 1
         this.data.currentPageSize = res.data.length;
@@ -66,15 +74,11 @@ Page({
       method: 'DELETE',
       header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       success: res => {
-        console.info(res);
         this.data.users.splice(user.index, 1);
         this.setData({
           users: this.data.users
         });
-        var i = 0;
-        res.data.users.forEach(value => {
-          value['index'] = i++;
-        });
+        indexArray(this.data.users);
       }
     })
   },
@@ -87,7 +91,6 @@ Page({
       header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
       data: user,
       success: res => {
-        console.info(res);
         this.setData({
           users: this.data.users
         });

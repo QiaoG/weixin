@@ -1,6 +1,6 @@
 <!--pages/demand/verifys/verifys.wxml-->
 <view class='page'>
-  <view style=' height:2.5em; '></view>
+  <view style=' height:2.9em; '></view>
   <view class="weui-panel__bd" wx:for="{{demands}}" wx:key="id" style=' background:#F4F4F4;padding:1px'>
     <view class="weui-media-box weui-media-box_text" data-id='{{item.id}}' data-index='{{item.index}}' bindtap='detail' style=' background:#FFFFFF;padding:8px'>
       <view class="weui-media-box__title weui-media-box__title_in-text">{{item.title}}</view>
@@ -11,7 +11,7 @@
     </view>
   </view>
   <view wx:if='{{bottom}}' style='font-size:13px;color:#bebebe;margin:auto;height:3.0em;text-align: center;'>没有了</view>
-  <view class="weui-search-bar" style='position: fixed;top:0px;height:2.2em;width: 100%;text-align: center;'>
+  <view class="weui-search-bar" style='position: fixed;top:0px;height:2.5em;width: 100%;text-align: center;'>
     <view class="weui-search-bar__form">
       <view class="weui-search-bar__box">
         <icon class="weui-icon-search_in-box" type="search" size="14"></icon>

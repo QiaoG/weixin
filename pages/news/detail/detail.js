@@ -58,9 +58,10 @@ Page({
     }
     var c = e.detail.value.content;
     if (c == null || util.myTrim(c).length < 6) {
-      wx.showToast({
-        title: '评论至少6个字符！',
-        duration: 1500
+      wx.showModal({
+        title: '错误',
+        content: '评论至少6个字符！',
+        showCancel: false
       })
       return;
     }

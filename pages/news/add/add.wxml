@@ -1,6 +1,6 @@
 <!--pages/news/add/add.wxml-->
 <view class='page' style='padding-right:10px;'>
-  <form bindsubmit="add">
+  <form bindsubmit="add" report-submit='true'>
     <view class="weui-cell weui-cell_input" >
       <view class="weui-cell__hd">
         <view class="weui-label" style='font-size:17px;width: 50px;'>标题:</view>
@@ -27,7 +27,7 @@
     </view>
     <view class="weui-cell weui-cell_input">
       <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请输入新闻内容" maxlength='-1' name='content' style="height: 28em;font-size: 14px;top:5px" />
+        <textarea class="weui-textarea" placeholder="请输入新闻内容" maxlength='-1' name='content' style="height: 26.5em;font-size: 14px;top:5px" />
       </view>
     </view>
     <view class="weui-cell weui-cell_input">

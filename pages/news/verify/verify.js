@@ -26,6 +26,7 @@ Page({
   verify:function(){
     this.data.news['status']=1;
     this.data.news['publisherId'] = app.globalData.topUser.id;
+    this.data.news['action'] = 'verify';
     wx.request({
       url: newsUrl + '/' + this.data.newsId,
       method: 'PUT',
