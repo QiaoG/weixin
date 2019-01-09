@@ -1,17 +1,17 @@
 <!--pages/user/userManage.wxml-->
 <view class='page'>
   <view style=' height:2.9em; '></view>
-  <view class="weui-panel__bd" wx:for="{{users}}" wx:key="id">
-    <view class="row-option" wx:if='{{item.rolec!=0&&item.id!=currentUser.id}}' style='height:5em;background:#ffffff'>
+  <view class="weui-panel__bd" wx:for="{{users}}" wx:if='{{item.rolec!=0&&item.id!=currentUser.id}}' wx:key="id">
+    <view class="row-option" style='height:5em;background:#ffffff'>
       <!-- <view style='flex:1;height:6em'></view> -->
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{item.avatarUrl}}" background-size="cover" style='flex:1;height:4em;margin-top:auto;margin-bottom:auto;'></image>
-      <view class="weui-media-box weui-media-box_text" data-id='{{item.id}}' style='flex:6; background:#FFFFFF;padding:7px;' bindlongtap='manage'>
-        <view class="row-option">
-          <view class="weui-media-box__info__meta" style='flex:2;flex-grow:2;font-weight: 400;font-size:15px'>
-            <text decode="emsp">{{item.nickname}}&emsp;{{item.enterprise?item.enterprise.name:'[个人用户]'}}</text>
+      <view class="weui-media-box weui-media-box_text" data-item='{{item}}' bindlongpress='manage' style='flex:7; background:#FFFFFF;padding:7px;' >
+        <view class="row-option" >
+          <view class="weui-media-box__info__meta" style='flex:2;flex-grow:2;font-weight: 400;font-size:15px' data-item='{{item}}'>
+            <text decode="emsp" data-item='{{item}}'>{{item.nickname}}&emsp;{{item.enterprise?item.enterprise.name:'[个人用户]'}}</text>
           </view>
         </view>
-        <text class="weui-article__p" style='font-size:14px;'>{{item.rolen}}  {{item.mobile}}</text>
+        <text class="weui-article__p" style='font-size:14px;' data-item='{{item}}' decode="emsp">{{item.rolen}}&emsp;{{item.mobile}}&emsp;{{item.job?item.job:''}}</text>
       </view>
     </view>
   </view>

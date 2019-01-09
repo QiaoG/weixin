@@ -1,7 +1,7 @@
 <view class='page'>
   <view style=' height:2.5em; '></view>
   <view class="weui-panel__bd" wx:for="{{demands}}" wx:key="id" style=' padding-right:10px;'>
-    <view class=" weui-media-box weui-media-box_text " data-id='{{item.id}}' data-index='{{item.index}}' bindtap='detail' bindlongtap='manage' style=' background:#FFFFFF;padding:7px'>
+    <view class=" weui-media-box weui-media-box_text " data-id='{{item.id}}' data-index='{{item.index}}' bindtap='detail' bindlongpress='manage' style=' background:#FFFFFF;padding:7px'>
       <view class="weui-media-box__title weui-media-box__title_in-text ">[{{item.typed}}] {{item.title}}</view>
       <view class="weui-media-box__desc ">{{item.content}}</view>
       <view class="weui-media-box__info ">

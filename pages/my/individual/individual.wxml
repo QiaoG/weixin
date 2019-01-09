@@ -1,18 +1,12 @@
-<!--pages/my/register/register.wxml-->
+<!--pages/my/individual/individual.wxml-->
 <view class='page'>
-  <view wx:if='{{step==2}}' style='font-size: 15px;padding: 0.5em;height:4em;'>
-    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='weui-btn' style='background:#e14834;' type='primary'>绑定手机</button>
-  </view>
-  <view wx:if='{{canIUse && step==1}}' style='font-size: 15px;padding: 0.5em;height:4em;'>
-    <button open-type="getUserInfo" bindgetuserinfo="getUserInfos" class='weui-btn' style='background:#e14834;' type='primary'> 获取昵称 </button>
-  </view>
-  <form wx:if='{{step == 3}}' bindsubmit='add'>
-    <view class="weui-cell weui-cell_input">
+<form bindsubmit='modify'>
+    <view class="weui-cell weui-cell_input" wx:if='{{index!=7}}'>
       <view class="weui-cell__hd">
         <view class="weui-label" style='font-size:17px;width:75px'>电子邮箱:</view>
       </view>
       <view class="weui-cell__bd">
-        <input class="weui-input" name='email' placeholder="请输入邮箱地址" style='font-size:16px' />
+        <input class="weui-input" name='email' value='{{user.email?user.email:""}}' placeholder="请输入邮箱地址" style='font-size:16px' />
       </view>
     </view>
     <view class="weui-cell weui-cell_input" style='height:2em;'>
@@ -26,13 +20,14 @@
           </view>
         </picker>
       </view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
     </view>
     <view class="weui-cell weui-cell_input" wx:if='{{index!=7}}'>
       <view class="weui-cell__hd">
         <view class="weui-label" style='font-size:17px;width:75px'>企业名称:</view>
       </view>
       <view class="weui-cell__bd">
-        <input class="weui-input" name='title' disabled='{{index==7}}' placeholder="请输入企业名称" style='font-size:16px' />
+        <input class="weui-input" name='title' value='{{user.enterprise?user.enterprise.name:""}}' placeholder="请输入企业名称" style='font-size:16px' />
       </view>
     </view>
     <view class="weui-cell weui-cell_input" wx:if='{{index!=7}}'>
@@ -40,7 +35,7 @@
         <view class="weui-label" style='font-size:17px;width:75px'>证劵代码:</view>
       </view>
       <view class="weui-cell__bd">
-        <input class="weui-input" disabled='{{index==7}}' name='code' maxlength='6' type='number' placeholder="6位数字" style='font-size:16px' />
+        <input class="weui-input" name='code' maxlength='6' value='{{user.enterprise?user.enterprise.securitiesCode:""}}' type='number' placeholder="6位数字" style='font-size:16px' />
       </view>
     </view>
     <view class="weui-cell weui-cell_input" wx:if='{{index!=7}}'>
@@ -48,11 +43,11 @@
         <view class="weui-label" style='font-size:17px;width:75px'>个人职务:</view>
       </view>
       <view class="weui-cell__bd">
-        <input class="weui-input" name='job' disabled='{{index==7}}' placeholder="请输入职务" style='font-size:16px' />
+        <input class="weui-input" name='job' value='{{user.job?user.job:""}}' placeholder="请输入职务" style='font-size:16px' />
       </view>
     </view>
     <view class="section-input" style='height:4em;'>
-      <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' form-type='submit'>注册完成</button>
+      <button class='weui-btn' style='flex:1;background:#e14834;' type='primary' form-type='submit'>修改</button>
     </view>
   </form>
 </view>

@@ -112,23 +112,20 @@ Page({
     wx.showActionSheet({
       itemList: ['删除需求'],
       success: function (res) {
-        this.setData({
-          lock: false
-        });
         if (res.tapIndex == 0) {
           wx.showModal({
             title: '提示',
             content: '确认删除需求吗？',
             success: function (res) {
-              that.setData({
-                lock:false
-              })
               if (res.confirm) {
                 that.deleteDemand(id, index);
               }
             }
           })
         }
+      },
+      complete: () => {
+        this.data.lock = false;
       }
     });
   },
@@ -139,6 +136,11 @@ Page({
       header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
       success: res => {
         console.info(res);
+        wx.showToast({
+          title: '需求删除成功',
+          icon: 'success',
+          duration: 2000
+        });
         this.data.demands.splice(index, 1);
         this.indexArray(this.data.demands);
         this.setData({
@@ -156,6 +158,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (options && options.id) {
+      wx.navigateTo({
+        url: 'detail/detail?id=' + options.id,
+      })
+      return;
+    }
     if (app.globalData.topUser) {
       this.setData({
         login: true
@@ -182,7 +190,7 @@ Page({
   },
   add: function (e) {
     wx.navigateTo({
-      url: this.data.login ? 'add/add' : '../my/register/register',
+      url: app.globalData.topUser ? 'add/add' : '../my/register/register',
     })
   },
 

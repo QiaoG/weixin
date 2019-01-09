@@ -116,11 +116,11 @@ Page({
       },
       success:res => {
         console.info(res);
-        // wx.showToast({
-        //   title: '添加完成',
-        //   icon: 'success',
-        //   duration: 2000
-        // })
+        wx.showModal({
+          content: '提交完成' + (app.globalData.manager ? '.' : ',需审核通过后发布。'),
+          showCancel: false
+
+        })
         var pages = getCurrentPages();
         var currPage = pages[pages.length - 1];   //当前页面
         var prevPage = pages[pages.length - 2];
@@ -178,7 +178,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+  wx.stopPullDownRefresh();
   },
 
   /**

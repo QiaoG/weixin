@@ -1,44 +1,56 @@
 <!--pages/demand/add/add.wxml-->
 <view class='page' style='padding-right:10px;'>
   <form bindsubmit='add' report-submit='true'>
-    <view class="weui-cell weui-cell_input">
-      <view class="weui-cell__hd">
+    <view class="weui-cells__title">标题</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <!-- <view class="weui-cell__hd">
         <view class="weui-label" style='font-size:17px;width:75px'>标题:</view>
-      </view>
-      <view class="weui-cell__bd">
-        <input class="weui-input" name='title' placeholder="请输入需求标题" style='font-size:16px' />
-      </view>
-    </view>
-    <view class="weui-cell weui-cell_input" style='height:2em;'>
-      <view class="weui-cell__hd">
-        <view class="weui-label" style='font-size:16px;width:75px;'>失效日期:</view>
-      </view>
-      <view class="weui-cell__bd">
-        <picker mode="date" name="date" start="2018-02-01" end="2021-12-31" bindchange="bindDateChange">
-          <view class="picker" style='font-size:15px;'>
-            {{date}}
-          </view>
-        </picker>
+      </view> -->
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='title' placeholder="请输入需求标题" style='font-size:16px' />
+        </view>
       </view>
     </view>
-    <view class="weui-cell weui-cell_input" style='height:2em;'>
-      <view class="weui-cell__hd">
-        <view class="weui-label" style='font-size:16px;width:75px;'>需求类型:</view>
-      </view>
-      <view class="weui-cell__bd">
-        <picker bindchange="bindTypeChange" value='{{index}}' range-key='name' range="{{typeArray}}">
-          <view class="picker" style='font-size:15px;'>
-            {{typeArray[index]['name']}}
-          </view>
-        </picker>
-      </view>
-    </view>
-    <view class="weui-cell weui-cell_input">
-      <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请输入需求内容" name='content' style="height: 28em;font-size: 14px;top:5px" />
+    <view class="weui-cells__title">失效日期</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input" style='height:2em;'>
+        <!-- <view class="weui-cell__hd">
+          <view class="weui-label" style='font-size:16px;width:75px;'>失效日期:</view>
+        </view> -->
+        <view class="weui-cell__bd">
+          <picker mode="date" name="date" start="2018-02-01" end="2021-12-31" bindchange="bindDateChange">
+            <view class="picker" style='font-size:15px;color: #e64340;'>
+              {{date}}
+            </view>
+          </picker>
+        </view>
       </view>
     </view>
-    <view class="weui-cell weui-cell_input">
+    <view class="weui-cells__title">需求类型</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input" style='height:2em;color: #999;'>
+        <view class="weui-cell__hd" >
+          <view class="weui-label" style='font-size:16px;width:75px;'>需求类型:</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker bindchange="bindTypeChange" value='{{index}}' range-key='name' range="{{typeArray}}">
+            <view class="picker" style='font-size:15px;'>
+              {{typeArray[index]['name']}}
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells__title">内容</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="请输入需求内容" name='content' style="height: 18.5em;font-size: 14px;top:5px" />
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells__title">
       <checkbox-group bindchange="bindAgreeChange">
         <label class="weui-agree" for="weuiAgree">
           <view class="weui-agree__text">

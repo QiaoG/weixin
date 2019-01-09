@@ -9,23 +9,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-    step:1,
-    userInfo:{},
-    hasUserInfo:false,
+    step: 1,
+    userInfo: {},
+    hasUserInfo: false,
     sessionKey: null,
     iv: null,
     encData: null,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    index:7,
+    index: 8,
     enterpriseType: [
       { id: 0, name: '挂牌企业' },
       { id: 1, name: '投资机构' },
       { id: 2, name: '财务顾问' },
       { id: 3, name: '证劵公司' },
       { id: 4, name: '分析师' },
-      { id: 5, name: '其他机构' },
-      { id: 6, name: '个人用户' },
-      { id: 7, name: '请选择' }
+      { id: 5, name: '上市公司' },
+      { id: 6, name: '其他机构' },
+      { id: 7, name: '个人用户' },
+      { id: 8, name: '请选择' }
     ],
   },
   bindTypeChange: function (e) {
@@ -49,7 +50,7 @@ Page({
       hasUserInfo: true
     })
     this.setData({
-      step:2
+      step: 2
     })
   },
 
@@ -99,20 +100,21 @@ Page({
         if (res.data.code != 0) {
           wx.hideLoading();
           wx.showModal({
-            title:'错误',
+            title: '错误',
             content: res.data.message,
-            showCancel:false
+            showCancel: false
           })
         } else {
           this.data.sessionKey = res.data.data.sessionKey;
           wx.request({
             url: url + "/dcymobile",
-            data: { 
-              'key': that.data.sessionKey, 
-            'encData': that.data.encData, 
-            'iv': that.data.iv,
-            'nickname':that.data.userInfo.nickName,
-            'avatarUrl': that.data.userInfo.avatarUrl },
+            data: {
+              'key': that.data.sessionKey,
+              'encData': that.data.encData,
+              'iv': that.data.iv,
+              'nickname': that.data.userInfo.nickName,
+              'avatarUrl': that.data.userInfo.avatarUrl
+            },
             success: res => {
               console.info(res);
               if (res.data.code != 0) {
@@ -122,27 +124,27 @@ Page({
                   content: res.data.message,
                   showCancel: false
                 })
-              }else{
-                if (res.data.data.verifyCount>0){
+              } else {
+                if (res.data.data.verifyCount > 0) {
                   wx.showTabBarRedDot({
-                    index:2
+                    index: 2
                   });
                 }
                 app.globalData.topUser = res.data.data;
                 app.globalData.manager = res.data.data.role.split('|')[0] < 2;
                 this.setData({
-                  step:3
+                  step: 3
                 })
                 console.info('create user success!' + this.data.step + ' ' + this.data.canIUse + ' ' + app.globalData.manager)
               }
             },
-            complete:() => {
+            complete: () => {
               wx.hideLoading();
             }
           })
         }
       },
-      fail:res => {
+      fail: res => {
         console.info(res);
         wx.hideLoading();
       }
@@ -150,7 +152,7 @@ Page({
   },
 
   add: function (e) {
-    if (this.data.index == 7) {
+    if (this.data.index == 8) {
       wx.showModal({
         title: '错误',
         content: '请选择用户类型！',
@@ -158,33 +160,53 @@ Page({
       })
       return;
     }
-    if (this.data.index == 6) {
-      console.info('个人用户');
-      var pages = getCurrentPages();
-      var prevPage = pages[pages.length - 2];
-      prevPage.loginComplete();
-      wx.navigateBack({
-        delta: 1
+    var form = e.detail.value;
+    if (util.myTrim(form.email).length > 0 && !util.isEmail(form.email)) {
+      wx.showModal({
+        title: '错误',
+        content: '电子邮箱格式不正确！',
+        showCancel: false
       })
       return;
     }
-    var form = e.detail.value;
-    if (!this.check(form)) {
+    if (form.title == null || util.myTrim(form.title).length == 0 ) {
+      wx.showModal({
+        title: '错误',
+        content: '企业名称输入不正确！',
+        showCancel: false
+      })
       return;
     }
+    if (this.data.index == 0 || this.data.index == 5) {
+      if (form.code == null || util.myTrim(form.code).length != 6) {
+        wx.showModal({
+          title: '错误',
+          content: '证劵代码输入不正确！',
+          showCancel: false
+        })
+        return ;
+      }
+    }
+  
     wx.showLoading({
       title: '',
     })
     var user = app.globalData.topUser;
-    user['enterprise'] = {};
-    user['enterprise']['name'] = form.title;
-    user['enterprise']['category'] = this.data.index;
-    user['enterprise']['securitiesCode'] = form.code;
+    user['email'] = form.email;
+    if (this.data.index != 7) {
+      user['enterprise'] = {};
+      user['enterprise']['name'] = form.title;
+      user['enterprise']['category'] = this.data.index;
+      user['enterprise']['securitiesCode'] = form.code;
+      user['job'] = form.job;
+    }
     wx.request({
-      url: userUrl+'/'+user.id,
+      url: userUrl + '/' + user.id,
       method: 'PUT',
-      header: { 'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      header: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + app.globalData.topUser.token
+      },
       data: user,
       success: res => {
         console.info(res);
@@ -202,20 +224,17 @@ Page({
     })
   },
 
-  check: function (form) {
-    if (form.title == null || util.myTrim(form.title).length == 0 || form.code == null || util.myTrim(form.code).length != 6) {
-      wx.showToast({
-        title: '标题和证劵代码输入不正确！',
-        duration: 2000
-      })
-      return false;
-    }
-    return true;
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    if (app.globalData.userInfo){
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true,
+        step: 2
+      })
+    }
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -258,7 +277,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+  wx.stopPullDownRefresh();
   },
 
   /**

@@ -17,7 +17,11 @@
     "pages/disclaimer/disclaimer",
     "pages/logs/logs",
     "pages/index/index",
-    "pages/my/register/register"
+    "pages/my/register/register",
+    "pages/my/opinion/opinion",
+    "pages/my/opinions/opinions",
+    "pages/my/about/about",
+    "pages/my/individual/individual"
   ],
   "tabBar": {
     "list": [

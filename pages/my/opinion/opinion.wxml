@@ -1,0 +1,13 @@
+<!--pages/my/opinion/opinion.wxml-->
+<view class='page'>
+  <form bindsubmit="add">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" placeholder="请输入意见说明" maxlength='-1' name='content' style="height: 26.5em;font-size: 14px;top:5px" />
+      </view>
+    </view>
+    <view class="section-input " style='height:4em;'>
+      <button class='weui-btn' type='primary' style='flex:1;background:#e14834;' formType="submit">提交意见</button>
+    </view>
+  </form>
+</view>

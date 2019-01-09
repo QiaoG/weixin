@@ -1,6 +1,7 @@
 // pages/demand/verify/verify.js
 const app = getApp()
 const demandUrl = app.globalData.serverUrl + "/api/demands"
+const util = require('../../../utils/util');
 Page({
 
   /**
@@ -11,11 +12,12 @@ Page({
     demandId: null
   },
 
-  verify: function () {
+  verify: function (pass=true) {
     wx.showNavigationBarLoading();
-    this.data.demand['status'] = 1;
+    this.data.demand['status'] = pass?1:2;
     this.data.demand['verifyId'] = app.globalData.topUser.id;
-    this.data.demand['action'] = 'verify';
+    this.data.demand['action'] = pass ? 'verify' :'verify_no';
+    this.data.demand['verifyDate'] = Date.now();
     wx.request({
       url: demandUrl + '/' + this.data.demandId,
       method: 'PUT',
@@ -24,7 +26,7 @@ Page({
       success: res => {
         console.info(res);
         wx.showToast({
-          title: '审核完成',
+          title: pass ? '审核完成' : '已经删除！',
           icon: 'success',
           duration: 2000
         })
@@ -105,7 +107,7 @@ Page({
             success: function (res) {
               console.info(this);
               if (res.confirm) {
-                that.verifyNo();
+                that.verify(false);
               }
             }
           })
@@ -152,7 +154,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+  wx.stopPullDownRefresh();
   },
 
   /**

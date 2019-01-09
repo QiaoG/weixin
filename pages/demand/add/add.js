@@ -14,14 +14,17 @@ Page({
     adding: false,
     date:null,
     typeArray:[
-      { id: 0, name:'老股转让'},
+      { id: 0, name:'选择需求'},
       { id: 1, name:'约调研'},
       { id: 2, name:'约投资'},
       { id: 3, name:'股权抵押'},
-      { id: 4, name:'其他'},
-      { id: 5, name: '请选择' },
+      { id: 4, name: '并购' },
+      { id: 5, name: '借壳' },
+      { id: 6, name: '咨询服务' },
+      { id: 7, name:'其他'},
+      { id: 8, name: '请选择' },
     ],
-    index:5
+    index:8
   },
   bindTypeChange:function(e){
     this.setData({
@@ -81,7 +84,7 @@ Page({
       success: res => {
         console.info(res);
         wx.showModal({
-          content: '提交完成' + (app.globalData.manager?'':',需审核通过后发布。'),
+          content: '提交完成' + (app.globalData.manager?'.':',需审核通过后发布。'),
           showCancel: false
     
         })
@@ -120,7 +123,7 @@ Page({
       })
       return false;
     }
-    if(this.data.index == 5){
+    if(this.data.index == 8){
       wx.showModal({
         title: '错误',
         content: '请选择需求类型！',

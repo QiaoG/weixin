@@ -11,11 +11,11 @@ Page({
   data: {
     inputShowed: false,
     nickname: "",
-    nextPage:0,
-    pageSize:0,
-    users:[],
-    searching:false,
-    currentUser:null
+    nextPage: 0,
+    currentPageSize: 0,
+    users: [],
+    searching: false,
+    currentUser: null
   },
   indexArray: function (arr) {
     var i = 0;
@@ -23,27 +23,28 @@ Page({
       value['index'] = i++;
     });
   },
-  init:function(){
+  init: function () {
     this.setData({
-      users:[]
+      users: []
     })
     this.data.nextPage = 0;
-    this.data.pageSize = 0;
+    this.data.currentPageSize = 0;
   },
-  findUsers:function(name,fresh){
-    console.info("search:"+name)
+  findUsers: function (name, fresh) {
+    console.info("search:" + name)
     this.setData({
-      searching:true
+      searching: true
     })
     wx.showNavigationBarLoading();
     wx.request({
-      url: url,
-      data:{
-        name:name,
-        page:this.data.nextPage,
-        size:size
+      url: url, 
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      data: {
+        name: name,
+        page: this.data.nextPage,
+        size: size
       },
-      success:res => {
+      success: res => {
         console.info(res.data);
         res.data.forEach(value => {
           value['rolec'] = value.role.split('|')[0];
@@ -57,38 +58,38 @@ Page({
         this.data.nextPage = this.data.nextPage + 1
         this.data.currentPageSize = res.data.length;
       },
-      complete:() => {
+      complete: () => {
         this.setData({
-          searching:false
+          searching: false
         })
         wx.hideNavigationBarLoading();
-        if(fresh){
+        if (fresh) {
           wx.stopPullDownRefresh();
         }
       }
     })
   },
-  deleteUser:function(user){
+  deleteUser: function (user) {
     wx.request({
       url: urlapi + '/' + user.id,
       method: 'DELETE',
-      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
       success: res => {
         this.data.users.splice(user.index, 1);
+        indexArray(this.data.users);
         this.setData({
           users: this.data.users
         });
-        indexArray(this.data.users);
       }
     })
   },
-  roleUser:function(user){
-    this.data.users[user.index]=user;
-    
+  roleUser: function (user) {
+    this.data.users[user.index] = user;
+
     wx.request({
       url: urlapi + '/' + user.id,
       method: 'PUT',
-      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
       data: user,
       success: res => {
         this.setData({
@@ -99,18 +100,19 @@ Page({
       }
     })
   },
-  manage:function(e){
+  manage: function (e) {
+    //wx:if='{{item.rolec!=0&&item.id!=currentUser.id}}'
     var that = this;
-    console.info(e.target.dataset.id);
-    var user = e.target.dataset.id;
+    console.info(e.target.dataset);
+    var user = e.target.dataset.item;
     wx.showActionSheet({
-      itemList: ['删除', user.rolec==2?'授权管理员':'取消管理员'],
+      itemList: ['删除', user.rolec == 2 ? '授权管理员' : '取消管理员'],
       success: function (res) {
         if (res.cancel) {
           return;
           // console.log(res.tapIndex)
         }
-        if(res.tapIndex == 0){
+        if (res.tapIndex == 0) {
           wx.showModal({
             title: '提示',
             content: '确认删除用户吗？',
@@ -160,9 +162,9 @@ Page({
     });
     this.init();
   },
-  search:function(){
+  search: function () {
     this.init();
-    this.findUsers(this.data.nickname,false);
+    this.findUsers(this.data.nickname, false);
     this.hideInput();
   },
   /**
@@ -172,35 +174,35 @@ Page({
     this.setData({
       currentUser: app.globalData.topUser
     })
-    this.findUsers(this.data.nickname,false);
+    this.findUsers(this.data.nickname, false);
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
@@ -210,15 +212,15 @@ Page({
     if (this.data.searching) {
       wx.showToast({
         title: '上次查询正在执行',
-        icon:'warm',
-        duration:1500
+        icon: 'warm',
+        duration: 1500
       })
       wx.stopPullDownRefresh();
       return
     }
     //wx.showNavigationBarLoading() //在标题栏中显示加载
     this.init();
-    this.findUsers(this.data.nickname,true);
+    this.findUsers(this.data.nickname, true);
 
   },
 
@@ -226,11 +228,11 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.searching || this.data.users.length==0) {
+    if (this.data.searching || this.data.users.length == 0) {
       return
     }
     if (this.data.pageSize === app.globalData.pageSize) {
-      this.findUsers(this.data.nickname,false)
+      this.findUsers(this.data.nickname, false)
     } else {
       console.log("have no users!")
     }
@@ -240,6 +242,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

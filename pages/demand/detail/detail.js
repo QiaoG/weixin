@@ -106,6 +106,48 @@ Page({
       }
     })
   },
+  deleteDiscuss: function (item) {
+    wx.request({
+      url: addDisUrl + '/' + item.id,
+      method: 'DELETE',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      success: res => {
+        wx.showToast({
+          title: '评论删除成功',
+          icon: 'success',
+          duration: 2000
+        });
+        this.data.discusses.splice(item.index, 1);
+        this.indexArray(this.data.discusses);
+        this.setData({
+          discusses: this.data.discusses
+        });
+      }
+    })
+  },
+  manage: function (e) {
+    if (!app.globalData.manager) {
+      return;
+    }
+    var that = this;
+    var item = e.currentTarget.dataset.item;
+    wx.showActionSheet({
+      itemList: ['删除评论'],
+      success: function (res) {
+        if (res.tapIndex == 0) {
+          wx.showModal({
+            title: '提示',
+            content: '确认删除所选评论吗？',
+            success: function (res) {
+              if (res.confirm) {
+                that.deleteDiscuss(item);
+              }
+            }
+          })
+        }
+      }
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -150,7 +192,7 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+wx.stopPullDownRefresh();
   },
 
   /**

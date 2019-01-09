@@ -1,0 +1,10 @@
+<view class='page'>
+  <view class="page__hd">
+    <view class="weui-article__h1" style='text-align: center;'></view>
+    <text class="weui-article__p">联系电话：010-57034588
+电子邮箱：hanguoji@taopu1.com
+版本号：{{publish}}
+</text>
+    <text class="weui-article__p"></text>
+  </view>
+</view>

@@ -6,7 +6,7 @@ const formatTime = date => {
   const minute = date.getMinutes()
   const second = date.getSeconds()
 
-  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
 const formatDate = date => {
@@ -27,9 +27,21 @@ const myTrim = x => {
   return x.replace(/^\s+|\s+$/gm, '');
 }
 
+const isEmail =str => {
+  var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+  return reg.test(str);
+} 
+const indexArray = arr => {
+  var i = 0;
+  arr.forEach(function (value) {
+    value['index'] = i++;
+  });
+}
 module.exports = {
   formatTime: formatTime,
   formatDate: formatDate,
   formatNumber:formatNumber,
-  myTrim: myTrim
+  myTrim: myTrim,
+  isEmail:isEmail,
+  indexArray: indexArray
 }

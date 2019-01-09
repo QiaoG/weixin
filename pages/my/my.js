@@ -12,6 +12,7 @@ Page({
     newsNum: 0,
     demandNum: 0,
     discussNum: 0,
+    opinionNum:0,
     manager: false,
     total:0
   },
@@ -20,7 +21,7 @@ Page({
     wx.request({
       url: urlNum,
       success: res => {
-        this.data.total = res.data.newsCount+res.data.demandCount+res.data.discussCount;
+        this.data.total = res.data.newsCount + res.data.demandCount + res.data.discussCount + res.data.opinionCount;
         console.info(res.data);
         if (this.data.total > 0) {
           wx.showTabBarRedDot({
@@ -34,7 +35,8 @@ Page({
         this.setData({
           newsNum: res.data['newsCount'],
           demandNum: res.data['demandCount'],
-          discussNum: res.data['discussCount']
+          discussNum: res.data['discussCount'],
+          opinionNum: res.data['opinionCount']
         });
       },
       complete:() => {
@@ -77,6 +79,30 @@ Page({
     })
   },
   /**
+   * 个人信息
+   */
+  individual:function(){
+    wx.navigateTo({
+      url: 'individual/individual',
+    })
+  },
+  /**
+   * 意见反馈
+   */
+  opinion:function(){
+    wx.navigateTo({
+      url: this.data.manager?'opinions/opinions':'opinion/opinion',
+    })
+  },
+  /**
+   * 关于我们
+   */
+  about:function(){
+    wx.navigateTo({
+      url: 'about/about',
+    })
+  },
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
@@ -105,6 +131,52 @@ Page({
     }
   },
 
+  loginTop: function () {
+    wx.showLoading({
+      title: '登陆',
+    })
+    wx.request({
+      url: app.globalData.serverUrl + '/wx/login',
+      data: {
+        'code': app.globalData.sessionCode
+      },
+      success: res => {
+        console.info(res.data);
+        if (res.data.data) {
+          this.globalData.topUser = res.data.data;
+          this.globalData.manager = res.data.data.role.split('|')[0] < 2;
+          if (res.data.data.verifyCount > 0) {
+            wx.showTabBarRedDot({
+              index: 2,
+              success: res => {
+                console.info(res);
+              },
+              fail: res => {
+                console.info(res)
+              }
+            });
+          }
+        } else {
+          console.info('用户不存在！');
+        }
+        if (app.globalData.topUser) {
+          this.setData({
+            login: true
+          })
+          this.setData({
+            manager: app.globalData.topUser.role.split('|')[0] < 2
+          });
+          if (this.data.manager) {
+            this.refreshCount(true);
+          }
+        } 
+      },
+      complete: () => {
+        wx.hideLoading();
+        console.info(this.globalData.topUser ? 'logined' : 'no logined');
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -159,9 +231,11 @@ Page({
       });
       if (this.data.manager) {
         this.refreshCount(true);
+      }else{
+        wx.stopPullDownRefresh();
       }
     }else{
-      wx.stopPullDownRefresh();
+      //wx.stopPullDownRefresh();
     }
   },
 

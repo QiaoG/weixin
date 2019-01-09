@@ -1,36 +1,49 @@
 <!--pages/news/add/add.wxml-->
-<view class='page' style='padding-right:10px;'>
+<view class='page' style='padding-right:10px;padding-left:10px;'>
   <form bindsubmit="add" report-submit='true'>
-    <view class="weui-cell weui-cell_input" >
-      <view class="weui-cell__hd">
+    <view class="weui-cells__title">标题</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <!-- <view class="weui-cell__hd">
         <view class="weui-label" style='font-size:17px;width: 50px;'>标题:</view>
-      </view>
-      <view class="weui-cell__bd">
-        <input class="weui-input" name='title' placeholder="请输入新闻标题" style='font-size:16px' />
+      </view> -->
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='title' placeholder="请输入新闻标题" style='font-size:15px' />
+        </view>
       </view>
     </view>
-    <view class="weui-cell weui-cell_input">
-      <view class="weui-cell__hd">
+    <view class="weui-cells__title">来源</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <!-- <view class="weui-cell__hd">
         <view class="weui-label" style='font-size:16px;width: 50px;'>来源:</view>
-      </view>
-      <view class="weui-cell__bd">
-        <input class="weui-input" name='source' placeholder="请输入新闻来源" style='font-size:15px' />
+      </view> -->
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='source' placeholder="请输入新闻来源" style='font-size:15px' />
+        </view>
       </view>
     </view>
-    <view class="weui-cell weui-cell_input">
-    <view class="weui-cell__hd">
+    <view class="weui-cells__title">代码</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <!-- <view class="weui-cell__hd">
         <view class="weui-label" style='font-size:16px;width: 50px;'>代码:</view>
-      </view>
-      <view class="weui-cell__bd">
-        <input class="weui-input" name='code' maxlength='6' type='number' placeholder="请输入6位证劵代码" style='font-size:15px' />
-      </view>
-    </view>
-    <view class="weui-cell weui-cell_input">
-      <view class="weui-cell__bd">
-        <textarea class="weui-textarea" placeholder="请输入新闻内容" maxlength='-1' name='content' style="height: 26.5em;font-size: 14px;top:5px" />
+      </view> -->
+        <view class="weui-cell__bd">
+          <input class="weui-input" name='code' maxlength='6' type='number' placeholder="请输入6位证劵代码" style='font-size:15px' />
+        </view>
       </view>
     </view>
-    <view class="weui-cell weui-cell_input">
+    <view class="weui-cells__title">内容</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="请输入热点内容" maxlength='-1' name='content' style="height: 16.5em;font-size: 15px;top:5px" />
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells__title">
       <checkbox-group bindchange="bindAgreeChange">
         <label class="weui-agree" for="weuiAgree">
           <view class="weui-agree__text">

@@ -1,6 +1,7 @@
 // pages/news/verify/verify.js
 const app = getApp()
 const newsUrl = app.globalData.serverUrl + "/api/news"
+const util = require('../../../utils/util')
 Page({
 
   /**
@@ -23,10 +24,12 @@ Page({
     })
   },
 
-  verify:function(){
-    this.data.news['status']=1;
+  verify:function(pass=true){
+    this.data.news['status']=pass?1:2;
     this.data.news['publisherId'] = app.globalData.topUser.id;
-    this.data.news['action'] = 'verify';
+    this.data.news['action'] = pass ? 'verify' :'verify_no';
+    this.data.news['verifyDate'] = Date.now();
+    console.info(this.data.news);
     wx.request({
       url: newsUrl + '/' + this.data.newsId,
       method: 'PUT',
@@ -35,7 +38,7 @@ Page({
       success: res => {
         console.info(res);
         wx.showToast({
-          title: '审核完成',
+          title: pass?'审核完成':'已经删除',
           icon: 'success',
           duration: 1500
         });
@@ -102,7 +105,7 @@ Page({
             success: function (res) {
               console.info(this);
               if (res.confirm) {
-                that.verifyNo();
+                that.verify(false);
               }
             }
           })

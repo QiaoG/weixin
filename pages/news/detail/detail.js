@@ -2,7 +2,7 @@
 const app = getApp()
 const util = require('../../../utils/util');
 const newsUrl = app.globalData.serverUrl + "/api/news"
-const disUrl = app.globalData.serverUrl +"/discusses/bySource"
+const disUrl = app.globalData.serverUrl + "/discusses/bySource"
 const addDisUrl = app.globalData.serverUrl + "/api/discuss"
 const pageSize = app.globalData.pageSize
 Page({
@@ -11,47 +11,52 @@ Page({
    * 页面的初始数据
    */
   data: {
-    login:false,
-    news:null,
-    newsId:null,
-    discussNextPage:0,
-    discussCurrentPageSize:0,
-    discusses:[],
-    discnt:''
+    login: false,
+    news: null,
+    newsId: null,
+    discussNextPage: 0,
+    discussCurrentPageSize: 0,
+    discusses: [],
+    discnt: ''
   },
-  init:function(){
+  init: function () {
     this.data.discussNextPage = 0;
     this.data.discussCurrentPageSize = 0;
-    this.data.discusses.splice(0, this.data.discusses.length);
+    // this.data.discusses.splice(0, this.data.discusses.length);
+    this.setData({
+      discusses: []
+    })
   },
-  getNews: function(id){
+  getNews: function (id) {
     wx.request({
-      url: newsUrl+'/'+id,
-      success:res => {
+      url: newsUrl + '/' + id,
+      success: res => {
         this.setData({
-          news:res.data
+          news: res.data
         })
-        this.data.newsId=id;
+        this.data.newsId = id;
         this.getDiscusses(id)
       }
     })
   },
-  getDiscusses: function(newsId){
+  getDiscusses: function (newsId) {
     wx.request({
-      url: disUrl + '?status=1&source='+newsId+'&type=0&offset=' + (this.data.discussNextPage*pageSize)+'&size='+pageSize,
-      success:res => {
+      url: disUrl + '?status=1&source=' + newsId + '&type=0&offset=' + (this.data.discussNextPage * pageSize) + '&size=' + pageSize,
+      success: res => {
         console.log(res.data)
+        this.data.discusses = this.data.discusses.concat(res.data);
+        this.indexArray(this.data.discusses);
         this.setData({
-          discusses:this.data.discusses.concat(res.data)
+          discusses: this.data.discusses
         })
-        this.data.discussNextPage = this.data.discussNextPage+1
+        this.data.discussNextPage = this.data.discussNextPage + 1
         this.data.discussCurrentPageSize = this.data.discusses.length
         console.log(this.data.discussNextPage + ',' + this.data.discussCurrentPageSize)
       }
     })
   },
   addDiscuss: function (e) {
-    if(!this.data.login){
+    if (!this.data.login) {
       wx.navigateTo({
         url: '../../my/register/register',
       })
@@ -72,29 +77,75 @@ Page({
     dis['createDate'] = Date.now();
     dis['authorId'] = app.globalData.topUser.id;
     dis['authorNickName'] = app.globalData.topUser.nickname;
-    dis['status'] = app.globalData.manager?1:0;
-    dis['sourceTitle']=this.data.news.title;
+    dis['status'] = app.globalData.manager ? 1 : 0;
+    dis['sourceTitle'] = this.data.news.title;
     wx.request({
       url: addDisUrl,
       method: 'POST',
-      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token},
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
       data: dis,
       success: res => {
-        wx.showToast({
-          title: '评论提交成功',
-          icon: 'success',
-          duration: 2000
-        });
+        wx.showModal({
+          content: '提交完成' + (app.globalData.manager ? '.' : ',需审核通过后发布。'),
+          showCancel: false
+        })
         this.init();
         this.setData({
-          discnt:''
+          discnt: ''
         })
-      
+
         this.getDiscusses(this.data.newsId);
       }
     })
   },
-
+  deleteDiscuss: function (item) {
+    wx.request({
+      url: addDisUrl + '/' + item.id,
+      method: 'DELETE',
+      header: { 'Authorization': 'Bearer ' + app.globalData.topUser.token },
+      success: res => {
+        wx.showToast({
+          title: '评论删除成功',
+          icon: 'success',
+          duration: 2000
+        });
+        this.data.discusses.splice(item.index, 1);
+        this.indexArray(this.data.discusses);
+        this.setData({
+          discusses: this.data.discusses
+        });
+      }
+    })
+  },
+  manage: function (e) {
+    if (!app.globalData.manager) {
+      return;
+    }
+    var that = this;
+    var item = e.currentTarget.dataset.item;
+    wx.showActionSheet({
+      itemList: ['删除评论'],
+      success: function (res) {
+        if (res.tapIndex == 0) {
+          wx.showModal({
+            title: '提示',
+            content: '确认删除所选评论吗？',
+            success: function (res) {
+              if (res.confirm) {
+                that.deleteDiscuss(item);
+              }
+            }
+          })
+        }
+      }
+    });
+  },
+  indexArray: function (arr) {
+    var i = 0;
+    arr.forEach(function (value) {
+      value['index'] = i++;
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -111,44 +162,44 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    wx.stopPullDownRefresh();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (this.data.discussCurrentPageSize === pageSize){
+    if (this.data.discussCurrentPageSize === pageSize) {
       this.getDiscusses(this.data.newsId)
-    }else{
+    } else {
       console.log("have no discuss!")
     }
   },
@@ -157,6 +208,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })
